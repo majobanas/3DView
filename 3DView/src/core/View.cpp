@@ -1,0 +1,110 @@
+#include "core/View.h"
+
+#include <iostream>
+
+View::View(int pWidth, int pHeight)
+{
+	std::cout << "----Creating View----" << std::endl;
+	_width = pWidth; 
+	_height = pHeight;
+
+	_initializeRenderWindow();
+	_printContextInfo();
+	_initializeGLEW();
+
+	_initializeCamera();
+	_initializeSpace();
+}
+
+View::~View()
+{
+	std::cout << "Deleting View" << std::endl;
+	delete _renderWindow;
+	_renderWindow = NULL;
+	delete _camera;
+	_camera = NULL;
+	delete _space;
+	_space = NULL;
+}
+
+void View::run()
+{
+	while (_renderWindow->isOpen()) {
+		_processInput();
+		_processUpdate();
+		_processRender();
+	}
+}
+
+void View::_initializeRenderWindow()
+{
+	std::cout << "----Initializing render window----" << std::endl;
+	_renderWindow = new sf::RenderWindow(sf::VideoMode(_width, _height), "3DView");// , sf::Style::Default, sf::ContextSettings(24, 8, 0, 3, 3));
+}
+
+void View::_printContextInfo()
+{
+	std::cout << "----Printing context info----" << std::endl;
+	//std::cout << "----------------------------------" << std::endl << std::endl;
+	//print some debug stats for whoever cares
+	const GLubyte* vendor = glGetString(GL_VENDOR);
+	const GLubyte* renderer = glGetString(GL_RENDERER);
+	const GLubyte* version = glGetString(GL_VERSION);
+	const GLubyte* glslVersion = glGetString(GL_SHADING_LANGUAGE_VERSION);
+	//nice consistency here in the way OpenGl retrieves values
+	GLint major, minor;
+	glGetIntegerv(GL_MAJOR_VERSION, &major);
+	glGetIntegerv(GL_MINOR_VERSION, &minor);
+
+	printf("GL Vendor : %s\n", vendor);
+	printf("GL Renderer : %s\n", renderer);
+	printf("GL Version (string) : %s\n", version);
+	printf("GL Version (integer) : %d.%d\n", major, minor);
+	printf("GLSL Version : %s\n", glslVersion);
+	//std::cout << "----------------------------------" << std::endl << std::endl;
+}
+
+void View::_initializeGLEW()
+{
+	std::cout << "----Initializing GLEW----" << std::endl;
+	//initialize the opengl extension wrangler
+	GLint glewStatus = glewInit();
+	std::cout << "Initialized GLEW, status (1 == OK, 0 == FAILED):" << (glewStatus == GLEW_OK) << std::endl;
+}
+
+void View::_initializeCamera()
+{
+	_camera = new Camera(glm::vec3(0, 0, 10), 60.0f, _width / _height, 0.001f, 1000.0f);
+}
+
+void View::_initializeSpace()
+{
+	_space = new Space();
+}
+
+void View::_processInput()
+{
+	while (_renderWindow->pollEvent(_windowEvent)) {
+		switch (_windowEvent.type) {
+		case sf::Event::Closed:
+			_renderWindow->close();
+			std::cout << "Render window closed" << std::endl;
+			break;
+		case sf::Event::Resized:
+			glViewport(0, 0, _windowEvent.size.width, _windowEvent.size.height);
+			break;
+		}
+	}
+}
+
+void View::_processUpdate()
+{
+}
+
+void View::_processRender()
+{
+	_renderWindow->clear();
+	_space->render(_camera->getViewProjection());
+	//_renderWindow->draw(/**/);
+	_renderWindow->display();
+}
