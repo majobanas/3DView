@@ -1,6 +1,7 @@
 #include "core/Camera.h"
 
 #include <iostream>
+#include "core/Input.h"
 
 Camera::Camera(glm::vec3 pPosition, float pFov, float pAspectRatio, float pNearPlane, float pFarPlane)
 {
@@ -36,6 +37,46 @@ Camera::~Camera()
 	_projection = NULL;
 	delete _viewProjection;
 	_viewProjection = NULL;
+}
+
+void Camera::update(float pElapsedTime)
+{
+	if (Input::getKeyPressed(Input::Key::W) || 
+		Input::getKeyPressed(Input::Key::S) || 
+		Input::getKeyPressed(Input::Key::A) || 
+		Input::getKeyPressed(Input::Key::D) ||
+		Input::getKeyPressed(Input::Key::Q) ||
+		Input::getKeyPressed(Input::Key::E) ||
+		Input::getKeyPressed(Input::Key::Up) ||
+		Input::getKeyPressed(Input::Key::Down) ||
+		Input::getKeyPressed(Input::Key::Left) ||
+		Input::getKeyPressed(Input::Key::Right)) {
+		glm::vec3 translation = glm::vec3((*_transform)[3]);
+		glm::vec3 direction = glm::normalize(glm::vec3(Input::getKeyPressed(Input::Key::A) ? -1 : (Input::getKeyPressed(Input::Key::D) ? 1 : 0),
+													   Input::getKeyPressed(Input::Key::Q) ? -1 : (Input::getKeyPressed(Input::Key::E) ? 1 : 0),
+													   Input::getKeyPressed(Input::Key::W) ? -1 : (Input::getKeyPressed(Input::Key::S) ? 1 : 0)));
+		
+		/*float step = 1.0f * pElapsedTime;
+		if (Input::getKeyPressed(Input::Key::W)) {
+			translation.z -= step;
+		}
+		if (Input::getKeyPressed(Input::Key::S)) {
+			translation.z += step;
+		}
+		if (Input::getKeyPressed(Input::Key::A)) {
+			translation.x -= step;
+		}
+		if (Input::getKeyPressed(Input::Key::D)) {
+			translation.x += step;
+		}*/
+
+		*_transform = glm::rotate(glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f)) * 
+					  glm::rotate(glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f)) *
+					  glm::rotate(glm::radians(0.0f), glm::vec3(0.0f, 0.0f, 1.0f)) *
+					  glm::translate(translation + (direction * pElapsedTime * 5.0f));
+
+		*_viewProjection = *_projection * glm::inverse(*_transform);
+	}
 }
 
 glm::mat4* Camera::getTransform()

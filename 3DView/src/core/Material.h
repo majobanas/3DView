@@ -1,5 +1,7 @@
 #pragma once
 
+#include "cfg.h"
+
 #include "core/ShaderProgram.h"
 #include "core/Mesh.h"
 #include <glm/gtc/type_ptr.hpp>

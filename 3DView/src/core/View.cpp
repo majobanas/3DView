@@ -2,11 +2,17 @@
 
 #include <iostream>
 
-View::View(int pWidth, int pHeight)
+View::View(int pWidth, int pHeight, int pUpdatesPerSecond, int pRendersPerSecond)
 {
 	std::cout << "----Creating View----" << std::endl;
 	_width = pWidth; 
 	_height = pHeight;
+	_timePerUpdate = 1.0f / pUpdatesPerSecond;
+	_timePerRender = 1.0f / pRendersPerSecond;
+	_timePerFrame = glm::min(_timePerUpdate, _timePerRender);
+	_timeSinceLastUpdate = _timePerFrame;
+	_timeSinceLastRender = _timePerFrame;
+	_timeSinceLastFrame = _timePerFrame;
 
 	_initializeRenderWindow();
 	_printContextInfo();
@@ -30,9 +36,27 @@ View::~View()
 void View::run()
 {
 	while (_renderWindow->isOpen()) {
-		_processInput();
-		_processUpdate();
-		_processRender();
+
+		_timeSinceLastFrame += _frameClock.restart().asSeconds();
+		if (_timeSinceLastFrame >= _timePerFrame) {
+			_timeSinceLastFrame = glm::mod(_timeSinceLastFrame, _timePerFrame);
+			_processInput();
+			_framesPerSecond += 1;
+
+			_timeSinceLastUpdate += _updateClock.restart().asSeconds();
+			if (_timeSinceLastUpdate >= _timePerUpdate) {
+				_timeSinceLastUpdate -= _timePerUpdate;
+				_processUpdate(_timePerUpdate);
+				_updatesPerSecond += 1;
+			}
+
+			_timeSinceLastRender += _renderClock.restart().asSeconds();
+			if (_timeSinceLastRender >= _timePerRender) {
+				_timeSinceLastRender -= _timePerRender;
+				_processRender();
+				_rendersPerSecond += 1;
+			}
+		}
 	}
 }
 
@@ -97,14 +121,16 @@ void View::_processInput()
 	}
 }
 
-void View::_processUpdate()
+void View::_processUpdate(float pElapsedTime)
 {
+	_camera->update(pElapsedTime);
+	_space->update(pElapsedTime);
 }
 
 void View::_processRender()
 {
 	_renderWindow->clear();
 	_space->render(_camera->getViewProjection());
-	//_renderWindow->draw(/**/);
+	glFinish();
 	_renderWindow->display();
 }

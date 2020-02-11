@@ -9,7 +9,7 @@
 class View {
 public:
 
-	View(int pWidth, int pHeight);
+	View(int pWidth, int pHeight, int pUpdatesPerSecond, int pRendersPerSecond);
 	~View();
 
 	void run();
@@ -30,7 +30,22 @@ private:
 	Camera* _camera = NULL;
 	Space* _space = NULL;
 
+	sf::Clock _updateClock;
+	sf::Clock _renderClock;
+	sf::Clock _frameClock;
+
+	double _timePerUpdate = 0.0;
+	double _timePerRender = 0.0;
+	double _timePerFrame = 0.0;
+	double _timeSinceLastUpdate = 0.0;
+	double _timeSinceLastRender = 0.0;
+	double _timeSinceLastFrame = 0.0f;
+
+	int _updatesPerSecond = 0;
+	int _rendersPerSecond = 0;
+	int _framesPerSecond = 0;
+
 	void _processInput();
-	void _processUpdate();
+	void _processUpdate(float pElapsedTime);
 	void _processRender();
 };

@@ -1,7 +1,5 @@
 #include "core/Material.h"
 
-#include "cfg.h"
-
 ShaderProgram* Material::_shader = NULL;
 
 GLint Material::_uMMatrix = 0;

@@ -48,6 +48,9 @@
     <ClCompile Include="..\src\core\ShaderProgram.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\core\Input.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\core\View.h">
@@ -73,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="..\src\core\cfg.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\Input.h">
+      <Filter>Header Files\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

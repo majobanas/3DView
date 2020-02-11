@@ -9,6 +9,8 @@ public:
 	Camera(glm::vec3 pPosition, float pFov, float pAspectRatio, float pNearPlane, float pFarPlane);
 	~Camera();
 
+	void update(float pElapsedTime);
+
 	glm::mat4* getTransform();
 	glm::mat4* getProjection();
 	glm::mat4* getViewProjection();

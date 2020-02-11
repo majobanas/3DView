@@ -22,6 +22,11 @@ Object::~Object()
 	_material = NULL;
 }
 
+void Object::update(float pElapsedTime)
+{
+
+}
+
 glm::mat4* Object::getTransform()
 {
 	return _transform;

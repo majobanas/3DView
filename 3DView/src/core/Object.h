@@ -12,6 +12,8 @@ public:
 	Object(glm::vec3 pPosition);
 	~Object();
 
+	void update(float pElapsedTime);
+
 	glm::mat4* getTransform();
 	Mesh* getMesh();
 	Material* getMaterial();

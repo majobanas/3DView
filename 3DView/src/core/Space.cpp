@@ -22,6 +22,13 @@ Space::~Space()
 	_objects.clear();
 }
 
+void Space::update(float pElapsedTime)
+{
+	for (int i = 0; i < _objects.size(); i++) {
+		_objects.at(i)->update(pElapsedTime);
+	}
+}
+
 void Space::render(glm::mat4* pViewProjection)
 {
 	Object* object = NULL;

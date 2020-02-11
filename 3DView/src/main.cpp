@@ -4,7 +4,7 @@
 
 int main() {
 	std::cout << "Start up" << std::endl;
-	View* view = new View(640, 480);
+	View* view = new View(640, 480, 60, 60);
 	view->run();
 
 	std::cout << "Press any key to delete allocated memory" << std::endl;
