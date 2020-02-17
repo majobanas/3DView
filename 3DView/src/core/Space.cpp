@@ -5,10 +5,15 @@
 Space::Space()
 {
 	std::cout << "----Creating Space----" << std::endl;
+	float spacing_x = std::stof(Config::VALUE["spacing_x"]);
+	float spacing_y = std::stof(Config::VALUE["spacing_y"]);
+	float spacing_z = std::stof(Config::VALUE["spacing_z"]);
+
+
 	_objects = std::vector<Object*>();
 
 	for (int i = 0; i < 10; i++) {
-		_objects.push_back(new Object(glm::vec3(i, i, i)));
+		_objects.push_back(new Object(glm::vec3(spacing_x * i, spacing_y * i, spacing_z * i)));
 	}
 }
 

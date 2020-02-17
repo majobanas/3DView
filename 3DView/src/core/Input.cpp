@@ -6,10 +6,10 @@ bool Input::getKeyPressed(Input::Key pKey) {
 
 Input::Input()
 {
-
+	// Static class, never instantiated
 }
 
 Input::~Input()
 {
-
+	// Static class, never instantiated
 }

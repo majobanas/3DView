@@ -1,0 +1,7 @@
+spacing_x=2
+spacing_y=2
+spacing_z=0
+
+config_path=../assets/
+model_path=../assets/models/
+shader_path=../assets/shaders/

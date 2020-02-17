@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "core/Object.h"
+#include "core/Config.h"
 
 class Space {
 public:

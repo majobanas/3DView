@@ -63,7 +63,7 @@ void View::run()
 void View::_initializeRenderWindow()
 {
 	std::cout << "----Initializing render window----" << std::endl;
-	_renderWindow = new sf::RenderWindow(sf::VideoMode(_width, _height), "3DView");// , sf::Style::Default, sf::ContextSettings(24, 8, 0, 3, 3));
+	_renderWindow = new sf::RenderWindow(sf::VideoMode(_width, _height), "3DView", sf::Style::Default);// , sf::ContextSettings(24, 8, 0, 3, 3));
 }
 
 void View::_printContextInfo()

@@ -4,6 +4,8 @@
 #include "glm/gtx/transform.hpp"
 #include "glm/gtx/string_cast.hpp"
 
+#include "core/Config.h"
+
 #include "core/Mesh.h"
 #include "core/Material.h"
 

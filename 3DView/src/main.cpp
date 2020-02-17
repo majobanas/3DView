@@ -1,9 +1,11 @@
 #include <iostream>
 
+#include "core/Config.h"
 #include "core/View.h"
 
 int main() {
 	std::cout << "Start up" << std::endl;
+	Config::initialize();
 	View* view = new View(640, 480, 60, 60);
 	view->run();
 

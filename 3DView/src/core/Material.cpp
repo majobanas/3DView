@@ -29,8 +29,8 @@ void Material::_lazyInitializeShader() {
 	//this shader contains everything the material can do (it can render something in 3d using a single color)
 	if (!_shader) {
 		_shader = new ShaderProgram();
-		_shader->addShader(GL_VERTEX_SHADER, cfg::SHADERS + "color.vs");
-		_shader->addShader(GL_FRAGMENT_SHADER, cfg::SHADERS + "color.fs");
+		_shader->addShader(GL_VERTEX_SHADER, Config::VALUE["shader_path"] + "color.vs");
+		_shader->addShader(GL_FRAGMENT_SHADER, Config::VALUE["shader_path"] + "color.fs");
 		_shader->finalize();
 
 		_uMMatrix = _shader->getUniformLocation("mMatrix");

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "cfg.h"
+#include "core/config.h"
 
 #include "core/ShaderProgram.h"
 #include "core/Mesh.h"

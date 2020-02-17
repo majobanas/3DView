@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\core\Camera.cpp" />
+    <ClCompile Include="..\src\core\Config.cpp" />
     <ClCompile Include="..\src\core\Input.cpp" />
     <ClCompile Include="..\src\core\Material.cpp" />
     <ClCompile Include="..\src\core\Mesh.cpp" />
@@ -34,7 +35,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="..\src\core\cfg.h" />
+    <ClInclude Include="..\src\core\Config.h" />
     <ClInclude Include="..\src\core\Input.h" />
     <ClInclude Include="..\src\core\Material.h" />
     <ClInclude Include="..\src\core\Mesh.h" />
@@ -46,6 +47,7 @@
   <ItemGroup>
     <None Include="..\assets\shaders\color.fs" />
     <None Include="..\assets\shaders\color.vs" />
+    <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -163,5 +165,12 @@
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\boost.1.71.0.0\build\boost.targets" Condition="Exists('..\packages\boost.1.71.0.0\build\boost.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\boost.1.71.0.0\build\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost.1.71.0.0\build\boost.targets'))" />
+  </Target>
 </Project>
