@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 
+#include "core/Config.h"
+
 /**
  * Generic shader program to which you can add separate shaders.
  * Nice exercise for the reader: make it possible to add shaders by passing in the code as a string instead of through a file.

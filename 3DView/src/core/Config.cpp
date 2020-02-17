@@ -14,9 +14,9 @@ void Config::initialize()
 		s << config.rdbuf();
 		DELIMITER = '\n';
 		std::vector<std::string> lines = _split(s.str());
+		DELIMITER = '=';
 		for (int i = 0; i < lines.size(); i++) {
 			if (lines.at(i).length() != 0) {
-				DELIMITER = '=';
 				std::vector<std::string> line = _split(lines.at(i));
 				VALUE[line.at(0)] = line.at(1);
 			}

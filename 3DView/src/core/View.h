@@ -9,7 +9,7 @@
 class View {
 public:
 
-	View(int pWidth, int pHeight, int pUpdatesPerSecond, int pRendersPerSecond);
+	View(int pWidth, int pHeight, float pFov, int pUpdatesPerSecond, int pRendersPerSecond);
 	~View();
 
 	void run();
@@ -19,7 +19,7 @@ private:
 	void _printContextInfo();
 	void _initializeGLEW();
 
-	void _initializeCamera();
+	void _initializeCamera(float pFov);
 	void _initializeSpace();
 
 	int _height = 0;

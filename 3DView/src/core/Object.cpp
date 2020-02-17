@@ -4,7 +4,7 @@ Object::Object(glm::vec3 pPosition)
 {
 	std::cout << "----Creating Object----" << std::endl;
 	_transform = new glm::mat4(glm::translate(pPosition));
-	_mesh = Mesh::load(Config::VALUE["model_path"] + "cube_flat.obj");
+	_mesh = Mesh::load(Config::VALUE["model_path"] + Config::VALUE["object_model"]);
 	_material = new Material(glm::vec3(1, 1, 1));
 }
 

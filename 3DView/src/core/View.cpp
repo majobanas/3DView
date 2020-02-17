@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-View::View(int pWidth, int pHeight, int pUpdatesPerSecond, int pRendersPerSecond)
+View::View(int pWidth, int pHeight, float pFov, int pUpdatesPerSecond, int pRendersPerSecond)
 {
 	std::cout << "----Creating View----" << std::endl;
 	_width = pWidth; 
@@ -18,7 +18,7 @@ View::View(int pWidth, int pHeight, int pUpdatesPerSecond, int pRendersPerSecond
 	_printContextInfo();
 	_initializeGLEW();
 
-	_initializeCamera();
+	_initializeCamera(pFov);
 	_initializeSpace();
 }
 
@@ -78,7 +78,11 @@ void View::_printContextInfo()
 	//nice consistency here in the way OpenGl retrieves values
 	GLint major, minor;
 	glGetIntegerv(GL_MAJOR_VERSION, &major);
+	Config::VALUE["gl_major"] = std::to_string(major);
+	std::cout << Config::VALUE["gl_major"] << std::endl;
 	glGetIntegerv(GL_MINOR_VERSION, &minor);
+	Config::VALUE["gl_minor"] = std::to_string(minor) + "0";
+	std::cout << Config::VALUE["gl_minor"] << std::endl;
 
 	printf("GL Vendor : %s\n", vendor);
 	printf("GL Renderer : %s\n", renderer);
@@ -96,9 +100,9 @@ void View::_initializeGLEW()
 	std::cout << "Initialized GLEW, status (1 == OK, 0 == FAILED):" << (glewStatus == GLEW_OK) << std::endl;
 }
 
-void View::_initializeCamera()
+void View::_initializeCamera(float pFov)
 {
-	_camera = new Camera(glm::vec3(0, 0, 10), 60.0f, _width / _height, 0.001f, 1000.0f);
+	_camera = new Camera(glm::vec3(0, 0, 10), pFov, _width / _height, 0.001f, 1000.0f);
 }
 
 void View::_initializeSpace()

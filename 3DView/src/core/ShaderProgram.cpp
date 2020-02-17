@@ -18,7 +18,8 @@ ShaderProgram::~ShaderProgram() {
 }
 
 void ShaderProgram::addShader(GLuint pShaderType, const std::string& pShaderPath) {
-	std::string shaderCode = _readFile(pShaderPath);
+	std::string shaderCode = 
+		"#version " + Config::VALUE["gl_major"] + Config::VALUE["gl_minor"] + '\n' + _readFile(pShaderPath);
 	GLuint shaderId = _compileShader(pShaderType, shaderCode);
 
 	if (shaderId != 0) {
