@@ -79,10 +79,8 @@ void View::_printContextInfo()
 	GLint major, minor;
 	glGetIntegerv(GL_MAJOR_VERSION, &major);
 	Config::VALUE["gl_major"] = std::to_string(major);
-	std::cout << Config::VALUE["gl_major"] << std::endl;
 	glGetIntegerv(GL_MINOR_VERSION, &minor);
 	Config::VALUE["gl_minor"] = std::to_string(minor) + "0";
-	std::cout << Config::VALUE["gl_minor"] << std::endl;
 
 	printf("GL Vendor : %s\n", vendor);
 	printf("GL Renderer : %s\n", renderer);
