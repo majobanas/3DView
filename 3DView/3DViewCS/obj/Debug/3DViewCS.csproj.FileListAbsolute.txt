@@ -1,0 +1,29 @@
+D:\School\CADVISION\DLLExperiment\3DViewCS\bin\Debug\3DViewCS.pdb
+D:\School\CADVISION\DLLExperiment\3DViewCS\bin\Debug\3DViewCLR.dll
+D:\School\CADVISION\DLLExperiment\3DViewCS\bin\Debug\3DViewCLR.pdb
+D:\School\CADVISION\DLLExperiment\3DViewCS\obj\Debug\3DViewCS.csproj.CopyComplete
+D:\School\CADVISION\DLLExperiment\3DViewCS\obj\Debug\3DViewCS.pdb
+D:\School\CADVISION\DLLExperiment\3DViewCS\bin\Debug\3DViewCS.dll.config
+D:\School\CADVISION\DLLExperiment\3DViewCS\bin\Debug\3DViewCS.dll
+D:\School\CADVISION\DLLExperiment\3DViewCS\obj\Debug\3DViewCS.dll
+D:\School\CADVISION\DLLExperiment\3DViewCPPtoCLRtoCs – kópia\3DViewCS\bin\Debug\3DViewCS.exe.config
+D:\School\CADVISION\DLLExperiment\3DViewCPPtoCLRtoCs – kópia\3DViewCS\bin\Debug\3DViewCS.exe
+D:\School\CADVISION\DLLExperiment\3DViewCPPtoCLRtoCs – kópia\3DViewCS\bin\Debug\3DViewCS.pdb
+D:\School\CADVISION\DLLExperiment\3DViewCPPtoCLRtoCs – kópia\3DViewCS\obj\Debug\3DViewCS.csproj.CopyComplete
+D:\School\CADVISION\DLLExperiment\3DViewCPPtoCLRtoCs – kópia\3DViewCS\obj\Debug\3DViewCS.exe
+D:\School\CADVISION\DLLExperiment\3DViewCPPtoCLRtoCs – kópia\3DViewCS\obj\Debug\3DViewCS.pdb
+D:\School\CADVISION\DLLExperiment\3DViewCPPtoCLRtoCs – kópia\3DViewCS\bin\Debug\3DViewCLR.dll
+D:\School\CADVISION\DLLExperiment\3DViewCPPtoCLRtoCs – kópia\3DViewCS\bin\Debug\3DViewCLR.pdb
+D:\School\CADVISION\DLLExperiment\3DViewCPPtoCLRtoCs – kópia\3DViewCS\obj\Debug\3DViewCS.csprojAssemblyReference.cache
+D:\School\CADVISION\Funkcna 3DView verzia\3DViewCS\bin\Debug\3DViewCS.exe.config
+D:\School\CADVISION\Funkcna 3DView verzia\3DViewCS\bin\Debug\3DViewCS.exe
+D:\School\CADVISION\Funkcna 3DView verzia\3DViewCS\bin\Debug\3DViewCS.pdb
+D:\School\CADVISION\Funkcna 3DView verzia\3DViewCS\bin\Debug\3DViewCLR.dll
+D:\School\CADVISION\Funkcna 3DView verzia\3DViewCS\bin\Debug\3DViewCLR.pdb
+D:\School\CADVISION\Funkcna 3DView verzia\3DViewCS\obj\Debug\3DViewCS.csprojAssemblyReference.cache
+D:\School\CADVISION\Funkcna 3DView verzia\3DViewCS\obj\Debug\ThreeDViewCS.Properties.Resources.resources
+D:\School\CADVISION\Funkcna 3DView verzia\3DViewCS\obj\Debug\ThreeDViewCS.ThreeDViewForm.resources
+D:\School\CADVISION\Funkcna 3DView verzia\3DViewCS\obj\Debug\3DViewCS.csproj.GenerateResource.cache
+D:\School\CADVISION\Funkcna 3DView verzia\3DViewCS\obj\Debug\3DViewCS.csproj.CopyComplete
+D:\School\CADVISION\Funkcna 3DView verzia\3DViewCS\obj\Debug\3DViewCS.exe
+D:\School\CADVISION\Funkcna 3DView verzia\3DViewCS\obj\Debug\3DViewCS.pdb

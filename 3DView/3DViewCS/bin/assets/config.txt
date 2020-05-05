@@ -1,0 +1,56 @@
+//Types:
+//f (float)
+//i (int)
+//s (string)
+
+//Follow the following format: 
+//<type> <key>=<value>
+
+i resolution_x=640
+i resolution_y=480
+f field_of_view=60
+i update_frequency=30
+i render_frequency=30
+
+f spacing_x=16
+f spacing_y=8
+f spacing_z=20
+
+f object_scale=3;
+f skybox_scale=500;
+
+s skybox_basename=space/
+s skybox_extension=.png
+
+i font_size=50;
+f font_scale=0.02;
+s text_color=ffffff;
+
+s config_path=assets/
+s model_path=assets/models/
+s shader_path=assets/shaders/
+s font_path=assets/fonts/
+s texture_path=assets/textures/
+s cubemap_path=assets/textures/cubemaps/
+
+s marker_model=marker.obj
+s root_model=root.obj
+s from_model=cube_flat.obj
+s project_model=cube_flat.obj
+s to_model=cube_flat.obj
+
+i load_models=1
+i models=0,104,103,102,105,10,108,9,101
+
+s text_shader_vertex=text.vs
+s text_shader_fragment=text.fs
+s line_shader_vertex=line.vs
+s line_shader_fragment=line.fs
+s color_shader_vertex=color.vs
+s color_shader_fragment=color.fs
+s texture_shader_vertex=texture.vs
+s texture_shader_fragment=texture.fs
+s sprite_shader_vertex=sprite.vs
+s sprite_shader_fragment=sprite.fs
+s skybox_shader_vertex=skybox.vs
+s skybox_shader_fragment=skybox.fs

@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net46</TargetFrameworks>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="RestSharp" Version="106.10.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  
+  <PropertyGroup>
+    <Version>1.0.2-alpha</Version>
+    <FileVersion>0.1.0</FileVersion>
+    <Authors>M-Files Corporation</Authors>
+    <Description>Sample .NET wrapper for the M-Files Web Service.  Not designed for production use.</Description>
+    <Copyright>Copyright (c) 2020 onwards, M-Files Corporation</Copyright>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <PackageId>MFaaP.MFWSClient</PackageId>
+    <PackageVersion>1.0.2-alpha</PackageVersion>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageTags>M-Files REST-API MFWS wrapper</PackageTags>
+    <PackageProjectUrl>https://github.com/M-Files/Libraries.MFWSClient</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/M-Files/Libraries.MFWSClient</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+</Project>

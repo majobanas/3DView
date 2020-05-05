@@ -1,0 +1,6 @@
+﻿  ThreeDViewCLR.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
+  3DView.lib(ObjVer.obj) : MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; add /LTCG to the link command line to improve linker performance
+  Generating code
+D:\School\CADVISION\Funkcna 3DView verzia\3DView\src\core\MObject.cpp(236): warning C4715: 'MObject::getNewMaterial': not all control paths return a value
+  Finished generating code
+  3DViewCLR.vcxproj -> D:\School\CADVISION\Funkcna 3DView verzia\3DView\Release\3DViewCLR.dll
