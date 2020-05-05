@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\core">
+      <UniqueIdentifier>{8071c4a7-0999-4240-9cbe-3ccd32d88144}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core">
+      <UniqueIdentifier>{75999a6d-edf7-43b5-a5ca-e6525a03518b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{1ccdfe83-b24b-4710-bdce-c0d47bfd4c3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\mfiles">
+      <UniqueIdentifier>{d77510c3-a455-4699-8be4-3a241d54d73a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\mfiles">
+      <UniqueIdentifier>{b66bff29-bc96-409c-aacf-e00b53f9f181}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core\material">
+      <UniqueIdentifier>{a4092fac-b914-433a-9184-61faae3fef62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core\material">
+      <UniqueIdentifier>{3750b501-3923-4781-a2d8-03bddbcafcbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core\ui">
+      <UniqueIdentifier>{bc9b09cf-4ced-4c9c-a3a5-30f665a741c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core\ui">
+      <UniqueIdentifier>{39b2f2df-a4ac-4357-b19e-828e369cdf41}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\core\View.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\Camera.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\Space.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\Mesh.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\ShaderProgram.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\Config.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\ThreeDView.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\mfiles\ObjVer.cpp">
+      <Filter>Source Files\mfiles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\Input.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\Transform.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\Texture.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\material\LineMaterial.cpp">
+      <Filter>Source Files\core\material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\material\TextMaterial.cpp">
+      <Filter>Source Files\core\material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\material\TextureMaterial.cpp">
+      <Filter>Source Files\core\material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\material\ColorMaterial.cpp">
+      <Filter>Source Files\core\material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\material\AbstractMaterial.cpp">
+      <Filter>Source Files\core\material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\Sprite.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\material\SkyboxMaterial.cpp">
+      <Filter>Source Files\core\material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\MObject.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\Object.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\core\View.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\Camera.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\Space.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\Mesh.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\ShaderProgram.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\Config.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\ThreeDView.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\mfiles\ObjVer.h">
+      <Filter>Header Files\mfiles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\Input.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\Transform.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\Texture.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\material\LineMaterial.h">
+      <Filter>Header Files\core\material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\material\TextMaterial.h">
+      <Filter>Header Files\core\material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\material\TextureMaterial.h">
+      <Filter>Header Files\core\material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\material\ColorMaterial.h">
+      <Filter>Header Files\core\material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\material\AbstractMaterial.h">
+      <Filter>Header Files\core\material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\Sprite.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\material\SkyboxMaterial.h">
+      <Filter>Header Files\core\material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\MObject.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\Object.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="..\..\3DViewCS\bin\assets\shaders\color.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\3DViewCS\bin\assets\shaders\color.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\3DViewCS\bin\assets\shaders\text.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\3DViewCS\bin\assets\shaders\text.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\3DViewCS\bin\assets\shaders\line.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\3DViewCS\bin\assets\shaders\line.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\3DViewCS\bin\assets\shaders\texture.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\3DViewCS\bin\assets\shaders\texture.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\3DViewCS\bin\assets\shaders\sprite.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\3DViewCS\bin\assets\shaders\sprite.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\3DViewCS\bin\main.js">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\3DViewCS\bin\assets\shaders\skybox.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\3DViewCS\bin\assets\shaders\skybox.vs">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\3DViewCS\bin\assets\config.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="..\..\3DViewCS\bin\assets\login.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
