@@ -56,7 +56,6 @@ function getShellFrameStartedHandler(shellFrame)
 				switch (commandId)
 				{
 					case run3DViewCommand:
-						var connectionNames = shellFrame.ShellUI.MFilesClientApplication.GetVaultConnections().Item[0].Name;
 						var info = "NULL";
 						var count = shellFrame.Listing.CurrentSelection.GetObjectVersionsCount();
 						if (count != 0) {
@@ -80,8 +79,8 @@ function getShellFrameStartedHandler(shellFrame)
 						shell.Run(MFiles.ApplicationPath + "\\Release\\3DViewCS.exe " +
 							MFiles.ApplicationPath + " " +
 							info + " " +
-							shellFrame.ShellUI.Vault.SessionInfo.VaultGUID,
-							connectionNames,
+							shellFrame.ShellUI.Vault.SessionInfo.VaultGUID + " " +
+							"NULL",
 							1);
 						break;
 				}
