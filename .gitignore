@@ -14,3 +14,4 @@
 3DView/3DViewCS/obj/Release/3DViewCS.csproj.GenerateResource.cache
 3DView/3DViewCS/obj/Release/ThreeDViewCS.ThreeDViewForm.resources
 3DView/3DViewCS/bin/bin.zip
+*.cache
