@@ -95,6 +95,9 @@ void View::_printContextInfo()
 	const GLubyte* renderer = glGetString(GL_RENDERER);
 	const GLubyte* version = glGetString(GL_VERSION);
 	const GLubyte* glslVersion = glGetString(GL_SHADING_LANGUAGE_VERSION);
+	std::string glslV(reinterpret_cast<char const*>(glslVersion));
+	glslV = glslV.erase(1, 1);
+	Config::s["glsl_version"] = glslV;
 	//nice consistency here in the way OpenGl retrieves values
 	GLint major, minor;
 	glGetIntegerv(GL_MAJOR_VERSION, &major);

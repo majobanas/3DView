@@ -53,8 +53,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="3DViewCLR, Version=1.0.7429.37841, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="3DViewCLR">
       <HintPath>..\3DView\Release\3DViewCLR.dll</HintPath>
     </Reference>
     <Reference Include="System" />

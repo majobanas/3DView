@@ -29,7 +29,7 @@ void ShaderProgram::clearShaders()
 
 void ShaderProgram::addShader(GLuint pShaderType, std::string pShader) {
 	std::string shaderCode = 
-		"#version " + Config::s["gl_major"] + Config::s["gl_minor"] + '\n' 
+		"#version " + Config::s["glsl_version"]/*Config::s["gl_major"] + Config::s["gl_minor"]*/ + '\n'
 		+ _readFile(Config::applicationPath + Config::s["shader_path"] + pShader);
 
 	GLuint shaderId = _compileShader(pShaderType, shaderCode);
