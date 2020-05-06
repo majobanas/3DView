@@ -3,13 +3,24 @@ using System.Windows.Forms;
 namespace ThreeDViewCS {
     public class Program {
         static void Main(string[] args) {
-            string applicationPath = args.Length != 0 ? args[0] : "NULL";
-            string entryObjects = args.Length > 1 ? args[1] : "NULL";
-            string vaultGUID = args.Length > 2 ? args[2] : "NULL";
-            string connectionNames = args.Length > 3 ? args[3] : "NULL";
-
-
-            Console.WriteLine("Connection names: " + connectionNames);
+            string[] inputArgs = new string[0];
+            if (args.Length != 0) {
+                inputArgs = args[0].Split('%');
+                foreach (string ia in inputArgs)
+                    Console.WriteLine(ia);
+            }
+            Console.WriteLine("-------------------------------------------------");
+            string applicationPath = inputArgs.Length != 0 ? inputArgs[0] : "NULL";
+            Console.WriteLine("applicationPath: " + applicationPath);
+            Console.WriteLine("-------------------------------------------------");
+            string entryObjects = inputArgs.Length > 1 ? inputArgs[1] : "NULL";
+            Console.WriteLine("entryObjects: " + entryObjects);
+            Console.WriteLine("-------------------------------------------------");
+            string vaultGUID = inputArgs.Length > 2 ? inputArgs[2] : "NULL";
+            Console.WriteLine("vaultGUID: " + vaultGUID);
+            Console.WriteLine("-------------------------------------------------");
+            string connectionNames = inputArgs.Length > 3 ? inputArgs[3] : "NULL";
+            Console.WriteLine("connectionNames: " + connectionNames);
 
             Program program = new Program(applicationPath, entryObjects, vaultGUID);
             program.Run();

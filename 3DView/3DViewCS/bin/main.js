@@ -75,13 +75,21 @@ function getShellFrameStartedHandler(shellFrame)
 						}
 						
 						// Open the application.
-						var shell = new ActiveXObject( "WScript.Shell" );
-						shell.Run(MFiles.ApplicationPath + "\\Release\\3DViewCS.exe " +
-							MFiles.ApplicationPath + " " +
-							info + " " +
-							shellFrame.ShellUI.Vault.SessionInfo.VaultGUID + " " +
-							"NULL",
-							1);
+						//var shell = new ActiveXObject( "WScript.Shell" );
+						//shell.Run(MFiles.ApplicationPath + "\\Release\\3DViewCS.exe " +
+						//	MFiles.ApplicationPath + " " +
+						//	info + " " +
+						//	shellFrame.ShellUI.Vault.SessionInfo.VaultGUID + " " +
+						//	"NULL",
+						//	1);
+						var shell = new ActiveXObject("Shell.Application");
+						shell.ShellExecute(
+							MFiles.ApplicationPath + "\\Release\\3DViewCS.exe",
+							"\"" + MFiles.ApplicationPath + "%" + info + "%" + shellFrame.ShellUI.Vault.SessionInfo.VaultGUID + "%" + "NULL\"",
+							null,
+							"runas",
+							1
+						);
 						break;
 				}
 			} 
