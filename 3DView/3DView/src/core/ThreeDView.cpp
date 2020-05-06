@@ -6,6 +6,7 @@ class Config;
 ThreeDView::ThreeDView(std::string pApplicationPath)
 {
 	Config::applicationPath = pApplicationPath;
+	Debug::now("Application path: " + Config::applicationPath);
 	Config::readConfig("assets/config.txt");
 }
 

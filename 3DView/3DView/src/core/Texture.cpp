@@ -64,8 +64,6 @@ Texture* Texture::load(std::string pFileName)
 
 Texture* Texture::loadCubemap(std::string pBaseName, std::string pExtension)
 {
-
-	Debug::now(Config::applicationPath);
 	if (Cubemaps.find(pBaseName + pExtension) != Cubemaps.end()) {
 		return Cubemaps[pBaseName + pExtension];
 	}
@@ -85,7 +83,7 @@ Texture* Texture::loadCubemap(std::string pBaseName, std::string pExtension)
 		}
 
 		// Allocate immutable storage for the whole cube map texture
-		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 1, GL_RGBA8, image.getSize().x, image.getSize().y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.getPixelsPtr());
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, GL_RGBA8, image.getSize().x, image.getSize().y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.getPixelsPtr());
 		//glTexStorage2D(GL_TEXTURE_CUBE_MAP, 1, GL_RGBA8, image.getSize().x, image.getSize().y);
 		//glTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, 0, 0, image.getSize().x, image.getSize().y, GL_RGBA, GL_UNSIGNED_BYTE, image.getPixelsPtr());
 
@@ -97,7 +95,7 @@ Texture* Texture::loadCubemap(std::string pBaseName, std::string pExtension)
 			}
 
 			//glTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, 0, 0, image.getSize().x, image.getSize().y, GL_RGBA, GL_UNSIGNED_BYTE, image.getPixelsPtr());
-			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 1, GL_RGBA8, image.getSize().x, image.getSize().y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.getPixelsPtr());
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA8, image.getSize().x, image.getSize().y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.getPixelsPtr());
 		}
 
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

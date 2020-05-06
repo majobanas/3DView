@@ -91,12 +91,14 @@ void View::_initializeRenderWindow(HWND__* pHandle)
 
 void View::_printContextInfo()
 {
-	const GLubyte* vendor = glGetString(GL_VENDOR);
+	const GLubyte* vendor = glGetString(GL_VENDOR); 
 	const GLubyte* renderer = glGetString(GL_RENDERER);
 	const GLubyte* version = glGetString(GL_VERSION);
 	const GLubyte* glslVersion = glGetString(GL_SHADING_LANGUAGE_VERSION);
 	std::string glslV(reinterpret_cast<char const*>(glslVersion));
-	glslV = glslV.erase(1, 1);
+	glslV = glslV.erase(1, 1).substr(0, 3); 
+	Debug::now("Parsed GLSL Version: " + glslV);
+
 	Config::s["glsl_version"] = glslV;
 	//nice consistency here in the way OpenGl retrieves values
 	GLint major, minor;

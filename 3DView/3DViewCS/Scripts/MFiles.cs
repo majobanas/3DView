@@ -63,9 +63,12 @@ namespace ThreeDViewCS {
         }
 
         public static void ReadTypeIcons() {
+            string path;
             foreach (KeyValuePair<int, string> pair in Types) {
                 Image image = Image.FromStream(client.Get<System.IO.Stream>(MFRequest.ObjectTypeIcon(pair.Key)));
-                image.Save(Parser.applicationPath + "assets/textures/" + pair.Key + ".png", ImageFormat.Png);
+                path = Parser.applicationPath + "assets/textures/" + pair.Key + ".png";
+                Console.WriteLine("ReadTypeIcons: " + path);
+                image.Save(path, ImageFormat.Png);
             }
         }
 
