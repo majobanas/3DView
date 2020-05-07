@@ -125,6 +125,21 @@ void ThreeDView::setConfigInteger(std::string pKey, int pValue)
 	Config::i[pKey] = pValue;
 }
 
+std::string ThreeDView::getConfigString(std::string pKey)
+{
+	return Config::s[pKey];
+}
+
+float ThreeDView::getConfigFloat(std::string pKey)
+{
+	return Config::f[pKey];
+}
+
+int ThreeDView::getConfigInteger(std::string pKey)
+{
+	return Config::i[pKey];
+}
+
 void ThreeDView::addTypeToLineStatus(int pType)
 {
 	Config::addTypeToLineStatus(pType);

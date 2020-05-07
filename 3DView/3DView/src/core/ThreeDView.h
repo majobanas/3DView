@@ -45,6 +45,10 @@ public:
 	void setConfigFloat(std::string pKey, float pValue);
 	void setConfigInteger(std::string pKey, int pValue);
 
+	std::string getConfigString(std::string pKey);
+	float getConfigFloat(std::string pKey);
+	int getConfigInteger(std::string pKey);
+
 	void addTypeToLineStatus(int pType);
 private:
 	View* _view = NULL;

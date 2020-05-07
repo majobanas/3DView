@@ -92,12 +92,15 @@ void View::_initializeRenderWindow(HWND__* pHandle)
 void View::_printContextInfo()
 {
 	const GLubyte* vendor = glGetString(GL_VENDOR); 
+	Config::s["gl_vendor"] = reinterpret_cast<char const*>(vendor);
 	const GLubyte* renderer = glGetString(GL_RENDERER);
+	Config::s["gl_renderer"] = reinterpret_cast<char const*>(renderer);
 	const GLubyte* version = glGetString(GL_VERSION);
+	Config::s["gl_version"] = reinterpret_cast<char const*>(version);
 	const GLubyte* glslVersion = glGetString(GL_SHADING_LANGUAGE_VERSION);
 	std::string glslV(reinterpret_cast<char const*>(glslVersion));
 	glslV = glslV.erase(1, 1).substr(0, 3); 
-	Debug::now("Parsed GLSL Version: " + glslV);
+	//Debug::now("Parsed GLSL Version: " + glslV);
 
 	Config::s["glsl_version"] = glslV;
 	//nice consistency here in the way OpenGl retrieves values
@@ -109,11 +112,12 @@ void View::_printContextInfo()
 	Config::s["gl_minor"] = std::to_string(minor) + "0";
 	Config::i["gl_minor"] = minor;
 
-	printf("GL Vendor : %s\n", vendor);
+	/*printf("GL Vendor : %s\n", vendor);
 	printf("GL Renderer : %s\n", renderer);
 	printf("GL Version (string) : %s\n", version);
 	printf("GL Version (integer) : %d.%d\n", major, minor);
 	printf("GLSL Version : %s\n", glslVersion);
+	*/
 }
 
 void View::_initializeGLEW()
@@ -178,6 +182,10 @@ void View::processInput()
 			break;
 		case sf::Event::Resized:
 			_camera->updateResolution();
+			glBindFramebuffer(GL_FRAMEBUFFER, _frameBufferId);
+			glViewport(0, 0, _renderWindow->getSize().x, _renderWindow->getSize().y);
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 			break;
 		}
 	}

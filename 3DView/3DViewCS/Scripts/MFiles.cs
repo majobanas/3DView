@@ -14,19 +14,28 @@ namespace ThreeDViewCS {
         public static Dictionary<int, string> Types = new Dictionary<int, string>();
 
         public static bool LoggedIn { get; private set; }
+        public static string VaultName { get; private set; }
+        public static string ClientName { get; private set; }
 
         private static MFClient client = null;
 
         public static void Login(string pURL, string pUsername, string pPassword, string pVaultGUID) {
 
             client = new MFClient(pURL);
-            
             client.Authentication =
                      client.Post<PrimitiveType<string>>(
                          MFRequest.AuthenticationTokens(),
                          new Authentication { Username = pUsername, Password = pPassword, VaultGuid = pVaultGUID }
                      ).Value;
-            client.Authentication = client.Get<Vault>(MFRequest.Vault()).Authentication;
+
+
+
+            Vault vault = client.Get<Vault>(MFRequest.Vault());
+            VaultName = vault.Name;
+            client.Authentication = vault.Authentication;
+
+            SessionInfo sessionInfo = client.Get<SessionInfo>(MFRequest.Session());
+            ClientName = sessionInfo.AccountName;
 
             if (client.Authentication != "") {
                 /*SessionInfo sessionInfo = client.Get<SessionInfo>(MFRequest.Session());
@@ -67,16 +76,16 @@ namespace ThreeDViewCS {
             foreach (KeyValuePair<int, string> pair in Types) {
                 Image image = Image.FromStream(client.Get<Stream>(MFRequest.ObjectTypeIcon(pair.Key)));
                 path = Parser.applicationPath + "assets/textures/" + pair.Key + ".png";
-                Console.WriteLine("ReadTypeIcons: " + path);
+                //Console.WriteLine("ReadTypeIcons: " + path);
                 image.Save(path, ImageFormat.Png);
-                Console.WriteLine("ReadTypeIcons: ONE DONE");
+                //Console.WriteLine("ReadTypeIcons: ONE DONE");
                 image.Dispose();
             }
         }
 
-        public static MFilesObject[] GetProjects() {
+        public static MFilesObject[] GetDefaultEntryObjects(int pDefaultEntryObjectType) {
             List<MFilesObject> list = new List<MFilesObject>();
-            Results<ObjectVersion> objectVersions = client.Get<Results<ObjectVersion>>(MFRequest.ObjectsOfType(102));
+            Results<ObjectVersion> objectVersions = client.Get<Results<ObjectVersion>>(MFRequest.ObjectsOfType(pDefaultEntryObjectType));
             ObjVer objVer;
             foreach (ObjectVersion objectVersion in objectVersions.Items) {
                 objVer = objectVersion.ObjVer;

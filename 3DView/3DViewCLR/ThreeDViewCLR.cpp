@@ -44,6 +44,21 @@ void ThreeDViewCLR::ThreeDViewWrapper::setConfigInteger(String^ pKey, int pValue
 	_threeDView->setConfigInteger(asString(pKey), pValue);
 }
 
+String^ ThreeDViewCLR::ThreeDViewWrapper::getConfigString(String^ pKey)
+{
+	return gcnew String(_threeDView->getConfigString(asString(pKey)).c_str());
+}
+
+float ThreeDViewCLR::ThreeDViewWrapper::getConfigFloat(String^ pKey)
+{
+	return _threeDView->getConfigFloat(asString(pKey));
+}
+
+int ThreeDViewCLR::ThreeDViewWrapper::getConfigInteger(String^ pKey)
+{
+	return _threeDView->getConfigInteger(asString(pKey));
+}
+
 void ThreeDViewCLR::ThreeDViewWrapper::addRoot(int pType, int pID, int pVersion, String^ pTitle, System::String^ pModel)
 {
 	_threeDView->addRoot(pType, pID, pVersion, asString(pTitle), asString(pModel));

@@ -39,6 +39,7 @@ s from_model=cube_flat.obj
 s project_model=cube_flat.obj
 s to_model=cube_flat.obj
 
+i default_entry_object_type=102
 i load_models=1
 i models=0,104,103,102,105,10,108,9,101
 

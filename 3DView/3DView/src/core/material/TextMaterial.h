@@ -36,7 +36,7 @@ private:
 	GLuint _vertexArrayID;
 	GLuint _vertexBufferID;
 
-	GLuint _uXOffset;
+	//GLuint _uXOffset;
 	GLuint _uXStep;
 	GLuint _uPMatrix;
 	GLuint _uVMatrix;
@@ -48,7 +48,7 @@ private:
 	GLfloat _scale;
 	std::string _text;
 	glm::vec3 _color;
-	float _xOffset;
+	//float _xOffset;
 
 	struct Character {
 		GLuint TextureID;

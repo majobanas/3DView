@@ -33,6 +33,10 @@ namespace ThreeDViewCLR {
 		void setConfigFloat(String^ pKey, float pValue);
 		void setConfigInteger(String^ pKey, int pValue);
 
+		String^ getConfigString(String^ pKey);
+		float getConfigFloat(String^ pKey);
+		int getConfigInteger(String^ pKey);
+
 		void addRoot(int pType, int pID, int pVersion, String^ pTitle, String^ pModel);
 
 		void makeRoot();

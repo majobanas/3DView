@@ -179,6 +179,6 @@ void TextMaterial::_loadCharacters()
 		};
 		character.UpdateVBO(_scale);
 		_characters.insert(std::pair<GLchar, Character>(c, character));
-		_xOffset += character.Bearing.x + character.Size.x;
+		//_xOffset += character.Bearing.x + character.Size.x;
 	}
 }

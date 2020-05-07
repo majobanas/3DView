@@ -85,7 +85,7 @@ function getShellFrameStartedHandler(shellFrame)
 						var shell = new ActiveXObject("Shell.Application");
 						shell.ShellExecute(
 							MFiles.ApplicationPath + "\\Release\\3DViewCS.exe",
-							"\"" + MFiles.ApplicationPath + "%" + info + "%" + shellFrame.ShellUI.Vault.SessionInfo.VaultGUID + "%" + "NULL\"",
+							"\"" + MFiles.ApplicationPath + "%" + info + "%" + shellFrame.ShellUI.Vault.SessionInfo.VaultGUID + "\"",
 							null,
 							"runas",
 							1

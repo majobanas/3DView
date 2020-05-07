@@ -8,6 +8,7 @@ namespace ThreeDViewCS {
     public class ThreeDView : ThreeDViewWrapper {
 
         public bool Initialized { get; private set; }
+        public bool IsInFocus { get; set; }
 
         public MFilesObject RootObject = null;
         public MFilesObject SelectedObject = null;
@@ -20,18 +21,20 @@ namespace ThreeDViewCS {
 
         public void Run() {
             if (Initialized) {
-                if (timeToInput()) {
-                    processInput();
+                if (IsInFocus) {
+                    if (timeToInput()) {
+                        processInput();
+                    }
+                    if (timeToUpdate()) {
+                        processUpdate();
+                    }
+                    if (timeToRender()) {
+                        processRender();
+                    }
+                    /*if (timeToSecond()) {
+                        processSecond();
+                    }*/
                 }
-                if (timeToUpdate()) {
-                    processUpdate();
-                }
-                if (timeToRender()) {
-                    processRender();
-                }
-                /*if (timeToSecond()) {
-                    processSecond();
-                }*/
             }
         }
 
@@ -41,12 +44,13 @@ namespace ThreeDViewCS {
                 addTypeToLineStatus(pair.Key);
             }
             Initialized = true;
+            IsInFocus = true;
         }
 
         public void LoadEntryObjects(string pEntryObjects) {
             MFilesObject[] mFilesObjects = Parser.EntryObjects(pEntryObjects);
             if (mFilesObjects.Length == 0) {
-                mFilesObjects = MFiles.GetProjects();
+                mFilesObjects = MFiles.GetDefaultEntryObjects(getConfigInteger("default_entry_object_type"));
             }
             for (int i = 0; i < 1; i++) {
                 Debug.Log("C# ThreeDView.LoadEntryObjects " + mFilesObjects[i].Type + Parser.itemSplitter + mFilesObjects[i].ID + Parser.itemSplitter + mFilesObjects[i].Version + Parser.itemSplitter + mFilesObjects[i].Title);
@@ -71,6 +75,17 @@ namespace ThreeDViewCS {
 
         public void SetConfigFloat(string pKey, float pValue) {
             setConfigFloat(pKey, pValue);
+        }
+        public string GetConfigString(string pKey) {
+            return getConfigString(pKey);
+        }
+
+        public int GetConfigInteger(string pKey) {
+            return getConfigInteger(pKey);
+        }
+
+        public float GetConfigFloat(string pKey) {
+            return getConfigFloat(pKey);
         }
 
         public MFilesObject SelectObject() {

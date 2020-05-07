@@ -47,7 +47,7 @@ Texture* Texture::load(std::string pFileName)
 		}
 		texture->_width = image->getSize().x;
 		texture->_height = image->getSize().y;
-		image->flipVertically();
+		if (Config::i["load_models"] == 1) image->flipVertically();
 		//image->flipHorizontally();
 		glBindTexture(GL_TEXTURE_2D, texture->getTextureID());
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->getSize().x, image->getSize().y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image->getPixelsPtr());

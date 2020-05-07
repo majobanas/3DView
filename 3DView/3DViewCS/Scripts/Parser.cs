@@ -19,7 +19,16 @@ namespace ThreeDViewCS {
             vaultGUID = VaultGUID(pVaultGUID);
         }
 
-
+        public static string[] InputArgs(string[] pArgs) {
+            string[] retrunArgs = new string[] { "NULL", "NULL", "NULL"};
+            if (pArgs.Length != 0) {
+                retrunArgs = pArgs[0].Split('%');
+            }
+            Console.WriteLine("applicationPath: " + retrunArgs[0]);
+            Console.WriteLine("entryObjects: " + retrunArgs[1]);
+            Console.WriteLine("vaultGUID: " + retrunArgs[2]);
+            return retrunArgs;
+        }
 
         private static string ApplicationPath(string pApplicationPath) {
             string result = (pApplicationPath == "NULL" ? "../" : pApplicationPath);

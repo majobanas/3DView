@@ -32,8 +32,9 @@ namespace ThreeDViewCS {
             this.Visibility_pictureBox = new System.Windows.Forms.PictureBox();
             this.Creation_pictureBox = new System.Windows.Forms.PictureBox();
             this.CreationFilter_label = new System.Windows.Forms.Label();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.MenuStrip = new System.Windows.Forms.MenuStrip();
             this.Filter_menuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.logout_menuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenFile_button = new System.Windows.Forms.PictureBox();
             this.RemoveTo_button = new System.Windows.Forms.PictureBox();
             this.RemoveFrom_button = new System.Windows.Forms.PictureBox();
@@ -41,16 +42,23 @@ namespace ThreeDViewCS {
             this.AddFrom_button = new System.Windows.Forms.PictureBox();
             this.MakeRoot_button = new System.Windows.Forms.PictureBox();
             this.DrawingSurface = new ThreeDViewCS.DrawingSurface();
+            this.info_menuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.info_panel = new System.Windows.Forms.Panel();
+            this.GLVendor_text = new System.Windows.Forms.Label();
+            this.GLRenderer_text = new System.Windows.Forms.Label();
+            this.GLVersion_text = new System.Windows.Forms.Label();
+            this.GLSLVersion_text = new System.Windows.Forms.Label();
             this.CreationFilter_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Visibility_pictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Creation_pictureBox)).BeginInit();
-            this.menuStrip1.SuspendLayout();
+            this.MenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.OpenFile_button)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RemoveTo_button)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RemoveFrom_button)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AddTo_button)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AddFrom_button)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MakeRoot_button)).BeginInit();
+            this.info_panel.SuspendLayout();
             this.SuspendLayout();
             // 
             // CreationFilter_panel
@@ -59,7 +67,7 @@ namespace ThreeDViewCS {
             this.CreationFilter_panel.Controls.Add(this.Visibility_pictureBox);
             this.CreationFilter_panel.Controls.Add(this.Creation_pictureBox);
             this.CreationFilter_panel.Controls.Add(this.CreationFilter_label);
-            this.CreationFilter_panel.Location = new System.Drawing.Point(1120, 24);
+            this.CreationFilter_panel.Location = new System.Drawing.Point(0, 24);
             this.CreationFilter_panel.Margin = new System.Windows.Forms.Padding(0);
             this.CreationFilter_panel.Name = "CreationFilter_panel";
             this.CreationFilter_panel.Size = new System.Drawing.Size(144, 267);
@@ -102,28 +110,39 @@ namespace ThreeDViewCS {
             this.CreationFilter_label.Text = "Filter";
             this.CreationFilter_label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // menuStrip1
+            // MenuStrip
             // 
-            this.menuStrip1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.MenuStrip.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.menuStrip1.AutoSize = false;
-            this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Filter_menuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1264, 24);
-            this.menuStrip1.TabIndex = 18;
-            this.menuStrip1.Text = "Menu strip";
+            this.MenuStrip.AutoSize = false;
+            this.MenuStrip.BackColor = System.Drawing.SystemColors.Control;
+            this.MenuStrip.Dock = System.Windows.Forms.DockStyle.None;
+            this.MenuStrip.GripMargin = new System.Windows.Forms.Padding(2);
+            this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Filter_menuItem,
+            this.logout_menuItem,
+            this.info_menuItem});
+            this.MenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.MenuStrip.Name = "MenuStrip";
+            this.MenuStrip.Size = new System.Drawing.Size(1264, 24);
+            this.MenuStrip.TabIndex = 18;
+            this.MenuStrip.Text = "Menu strip";
+            this.MenuStrip.Visible = false;
             // 
             // Filter_menuItem
             // 
-            this.Filter_menuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.Filter_menuItem.Name = "Filter_menuItem";
             this.Filter_menuItem.Size = new System.Drawing.Size(45, 20);
             this.Filter_menuItem.Text = "Filter";
             this.Filter_menuItem.Click += new System.EventHandler(this.Filter_menuItem_click);
+            // 
+            // logout_menuItem
+            // 
+            this.logout_menuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.logout_menuItem.Name = "logout_menuItem";
+            this.logout_menuItem.Size = new System.Drawing.Size(57, 20);
+            this.logout_menuItem.Text = "Logout";
+            this.logout_menuItem.Click += new System.EventHandler(this.logout_menuItem_Click);
             // 
             // OpenFile_button
             // 
@@ -220,15 +239,81 @@ namespace ThreeDViewCS {
             this.DrawingSurface.Size = new System.Drawing.Size(1264, 657);
             this.DrawingSurface.TabIndex = 0;
             this.DrawingSurface.Text = "drawingSurface";
+            this.DrawingSurface.Visible = false;
             this.DrawingSurface.MouseClick += new System.Windows.Forms.MouseEventHandler(this.DrawingSurface_Click);
             this.DrawingSurface.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DrawingSurface_Down);
             this.DrawingSurface.MouseUp += new System.Windows.Forms.MouseEventHandler(this.DrawingSurface_Up);
+            // 
+            // info_menuItem
+            // 
+            this.info_menuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.info_menuItem.Name = "info_menuItem";
+            this.info_menuItem.Size = new System.Drawing.Size(42, 20);
+            this.info_menuItem.Text = "GPU";
+            this.info_menuItem.Click += new System.EventHandler(this.info_menuItem_Click);
+            // 
+            // info_panel
+            // 
+            this.info_panel.Controls.Add(this.GLSLVersion_text);
+            this.info_panel.Controls.Add(this.GLVersion_text);
+            this.info_panel.Controls.Add(this.GLRenderer_text);
+            this.info_panel.Controls.Add(this.GLVendor_text);
+            this.info_panel.Location = new System.Drawing.Point(1006, 24);
+            this.info_panel.Name = "info_panel";
+            this.info_panel.Size = new System.Drawing.Size(200, 80);
+            this.info_panel.TabIndex = 19;
+            this.info_panel.Visible = false;
+            // 
+            // GLVendor_text
+            // 
+            this.GLVendor_text.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.GLVendor_text.Location = new System.Drawing.Point(0, 20);
+            this.GLVendor_text.Margin = new System.Windows.Forms.Padding(0);
+            this.GLVendor_text.Name = "GLVendor_text";
+            this.GLVendor_text.Size = new System.Drawing.Size(200, 20);
+            this.GLVendor_text.TabIndex = 4;
+            this.GLVendor_text.Text = "GL_VENDOR";
+            this.GLVendor_text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // GLRenderer_text
+            // 
+            this.GLRenderer_text.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.GLRenderer_text.Location = new System.Drawing.Point(0, 0);
+            this.GLRenderer_text.Margin = new System.Windows.Forms.Padding(0);
+            this.GLRenderer_text.Name = "GLRenderer_text";
+            this.GLRenderer_text.Size = new System.Drawing.Size(200, 20);
+            this.GLRenderer_text.TabIndex = 5;
+            this.GLRenderer_text.Text = "GL_RENDERER";
+            this.GLRenderer_text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // GLVersion_text
+            // 
+            this.GLVersion_text.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.GLVersion_text.Location = new System.Drawing.Point(0, 40);
+            this.GLVersion_text.Margin = new System.Windows.Forms.Padding(0);
+            this.GLVersion_text.Name = "GLVersion_text";
+            this.GLVersion_text.Size = new System.Drawing.Size(200, 20);
+            this.GLVersion_text.TabIndex = 6;
+            this.GLVersion_text.Text = "GL_VERSION";
+            this.GLVersion_text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // GLSLVersion_text
+            // 
+            this.GLSLVersion_text.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.GLSLVersion_text.Location = new System.Drawing.Point(0, 60);
+            this.GLSLVersion_text.Margin = new System.Windows.Forms.Padding(0);
+            this.GLSLVersion_text.Name = "GLSLVersion_text";
+            this.GLSLVersion_text.Size = new System.Drawing.Size(200, 20);
+            this.GLSLVersion_text.TabIndex = 7;
+            this.GLSLVersion_text.Text = "GLSL_VERSION";
+            this.GLSLVersion_text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ThreeDViewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.Controls.Add(this.info_panel);
             this.Controls.Add(this.AddFrom_button);
             this.Controls.Add(this.OpenFile_button);
             this.Controls.Add(this.MakeRoot_button);
@@ -237,22 +322,27 @@ namespace ThreeDViewCS {
             this.Controls.Add(this.CreationFilter_panel);
             this.Controls.Add(this.RemoveFrom_button);
             this.Controls.Add(this.DrawingSurface);
-            this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
-            this.Name = "3DView";
+            this.Controls.Add(this.MenuStrip);
+            this.MainMenuStrip = this.MenuStrip;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(640, 480);
+            this.Name = "ThreeDViewForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "3DView";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.CreationFilter_panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Visibility_pictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Creation_pictureBox)).EndInit();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.MenuStrip.ResumeLayout(false);
+            this.MenuStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.OpenFile_button)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RemoveTo_button)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RemoveFrom_button)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AddTo_button)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AddFrom_button)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MakeRoot_button)).EndInit();
+            this.info_panel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -326,7 +416,7 @@ namespace ThreeDViewCS {
         }
 
         private PictureBox Visibility_pictureBox;
-        private MenuStrip menuStrip1;
+        private MenuStrip MenuStrip;
         private ToolStripMenuItem Filter_menuItem;
         private PictureBox MakeRoot_button;
         private PictureBox AddFrom_button;
@@ -334,6 +424,13 @@ namespace ThreeDViewCS {
         private PictureBox RemoveFrom_button;
         private PictureBox RemoveTo_button;
         private PictureBox OpenFile_button;
+        private ToolStripMenuItem logout_menuItem;
+        private ToolStripMenuItem info_menuItem;
+        private Panel info_panel;
+        private Label GLSLVersion_text;
+        private Label GLVersion_text;
+        private Label GLRenderer_text;
+        private Label GLVendor_text;
     }
     public class DrawingSurface : Control {
         protected override void OnPaint(PaintEventArgs pEvent) {

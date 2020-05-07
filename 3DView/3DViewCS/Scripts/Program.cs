@@ -3,7 +3,7 @@ using System.Windows.Forms;
 namespace ThreeDViewCS {
     public class Program {
         static void Main(string[] args) {
-            string[] inputArgs = new string[0];
+            /*string[] inputArgs = new string[0];
             if (args.Length != 0) {
                 inputArgs = args[0].Split('%');
                 foreach (string ia in inputArgs)
@@ -18,18 +18,16 @@ namespace ThreeDViewCS {
             Console.WriteLine("-------------------------------------------------");
             string vaultGUID = inputArgs.Length > 2 ? inputArgs[2] : "NULL";
             Console.WriteLine("vaultGUID: " + vaultGUID);
-            Console.WriteLine("-------------------------------------------------");
-            string connectionNames = inputArgs.Length > 3 ? inputArgs[3] : "NULL";
-            Console.WriteLine("connectionNames: " + connectionNames);
+            Console.WriteLine("-------------------------------------------------");*/
 
-            Program program = new Program(applicationPath, entryObjects, vaultGUID);
+            Program program = new Program(Parser.InputArgs(args)/*applicationPath, entryObjects, vaultGUID*/);
             program.Run();
         }
 
         private ThreeDViewForm viewForm = null;
 
-        public Program(string pApplicationPath, string pEntryObjects, string pVaultGUID) {
-            Parser.Initialize(pApplicationPath, pEntryObjects, pVaultGUID);
+        public Program(string[] pInputArgs/*string pApplicationPath, string pEntryObjects, string pVaultGUID*/) {
+            Parser.Initialize(pInputArgs[0], pInputArgs[1], pInputArgs[2]/*pApplicationPath, pEntryObjects, pVaultGUID*/);
 
             viewForm = new ThreeDViewForm();
             //viewForm.Show();

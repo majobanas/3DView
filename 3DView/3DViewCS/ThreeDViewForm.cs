@@ -19,7 +19,23 @@ namespace ThreeDViewCS {
 
             threeDView = new ThreeDView(Parser.applicationPath);
             this.Show();
+            this.Deactivate += new EventHandler((s, e) => { threeDView.IsInFocus = false; });
+            this.Activated += new EventHandler((s, e) => { threeDView.IsInFocus = true; });
             OpenLoginDialog();
+        }
+
+        private void Logout() {
+            ToggleUIVisibility(false);
+            // Clean the login.txt
+            string path = Parser.applicationPath + "assets/login.txt";
+            File.WriteAllText(path, Convert.ToBase64String(Encoding.ASCII.GetBytes("")));
+
+            Application.Exit();
+
+        }
+
+        private void logout_menuItem_Click(object sender, EventArgs e) {
+            Logout();
         }
 
         private void OpenLoginDialog(bool pAskForNewCredentials = false) {
@@ -65,7 +81,7 @@ namespace ThreeDViewCS {
             loginDialog.Controls.Add(username);
             username.Location = new System.Drawing.Point(20, 64);
             username.Size = new System.Drawing.Size(200, 30);
-            username.Text = "ADMIN";
+            username.Text = "";
             // ----------Password---------------------
             Label passwordTitle = new Label();
             loginDialog.Controls.Add(passwordTitle);
@@ -78,7 +94,7 @@ namespace ThreeDViewCS {
             password.Location = new System.Drawing.Point(20, 106);
             password.Size = new System.Drawing.Size(200, 30);
             password.UseSystemPasswordChar = true;
-            password.Text = "cxcxx";
+            password.Text = "";
             // --------------Remember---------------------
             CheckBox rememberCredentials = new CheckBox();
             loginDialog.Controls.Add(rememberCredentials);
@@ -94,10 +110,11 @@ namespace ThreeDViewCS {
             login.Size = new System.Drawing.Size(80, 20);
             login.Text = "Login";
             login.Click += new EventHandler((s, e) => {
+                loginDialog.Hide();
+                Login_button_Click(URL.Text, username.Text, password.Text);
                 if (rememberCredentials.Checked) {
                     SaveLoginCredentials(path, URL.Text, username.Text, password.Text);
                 }
-                Login_button_Click(URL.Text, username.Text, password.Text);
                 loginDialog.Close();
             });
             // ---------------------------------------
@@ -127,6 +144,7 @@ namespace ThreeDViewCS {
         private void Login_button_Click(string pURL, string pUsername, string pPassword) {
             if (!MFiles.LoggedIn) {
                 MFiles.Login(pURL, pUsername, pPassword, Parser.vaultGUID);
+                this.Text = "3DView    [ " + MFiles.VaultName + " ]    [ " + MFiles.ClientName + " ]";
 
                 if (MFiles.LoggedIn) {
                     MFiles.ReadTypes();
@@ -136,14 +154,24 @@ namespace ThreeDViewCS {
                     threeDView.InitializeVisibilityFilterTypes();
                     AddVisibilityFilterCheckBoxes();
                     threeDView.InitializeView(DrawingSurface.Handle);
-                    /*threeDView.SetConfigInteger(
-                        "load_models",
-                        (Parser.vaultGUID == "{72B08B17-FE4E-4DDB-92D9-77624FA1FC6E}") ? 1 : 0);*/
+                    FillInfoPanel();
+                    // Enable picking objects in fullscreen mode
+                    this.WindowState = FormWindowState.Normal;
+                    this.CenterToScreen();
+                    //--------------------------------------------------
                     threeDView.LoadEntryObjects(Parser.entryObjects);
+                    ToggleUIVisibility(true);
                 } else {
                     OpenLoginDialog(true);
                 }
             }
+        }
+
+        private void ToggleUIVisibility(bool pBool) {
+            MenuStrip.Visible = pBool;
+            DrawingSurface.Visible = pBool;
+            this.MaximizeBox = pBool;
+            this.MinimizeBox = pBool;
         }
 
         private void DrawingSurface_Down(object sender, MouseEventArgs pEvent) {
@@ -166,9 +194,11 @@ namespace ThreeDViewCS {
         }
 
         private void DrawingSurface_Up(object sender, MouseEventArgs pEvent) {
-            if (pEvent.Button == MouseButtons.Right) {
-                if (threeDView.SelectedObject != null) {
-                    // Empty
+            if (threeDView.Initialized) {
+                if (pEvent.Button == MouseButtons.Right) {
+                    if (threeDView.SelectedObject != null) {
+                        // Empty
+                    }
                 }
             }
         }
@@ -236,61 +266,65 @@ namespace ThreeDViewCS {
         // -------------------------------------------------------------- Complex functions
 
         private void ShowQuickAction(bool pIsRootSelected, bool pHasFiles) {
-            if (!quickActionVisible) {
-                quickActionVisible = true;
-                foreach (Control control in quickActionButtons) {
-                    control.Visible = true;
-                }
-                System.Drawing.Point cursor = PointToClient(Cursor.Position);
-                System.Drawing.Size size = 
-                    new System.Drawing.Size(
-                        quickActionButtons[0].Size.Width * quickActionButtons.Length / 2,
-                        quickActionButtons[0].Size.Height * 2);
-                // Calculate offset from window border
-                int xOffset = 0;
-                int yOffset = 0;
-                if (cursor.X + size.Width > this.DrawingSurface.Size.Width) {
-                    xOffset = -size.Width;
-                    // Reduce offset if buttons arent going to be visible
-                    if (pIsRootSelected && !pHasFiles) {
-                        xOffset += quickActionButtons[0].Size.Width;
+            if (threeDView.Initialized) {
+                if (!quickActionVisible) {
+                    quickActionVisible = true;
+                    foreach (Control control in quickActionButtons) {
+                        control.Visible = true;
                     }
+                    System.Drawing.Point cursor = PointToClient(Cursor.Position);
+                    System.Drawing.Size size =
+                        new System.Drawing.Size(
+                            quickActionButtons[0].Size.Width * quickActionButtons.Length / 2,
+                            quickActionButtons[0].Size.Height * 2);
+                    // Calculate offset from window border
+                    int xOffset = 0;
+                    int yOffset = 0;
+                    if (cursor.X + size.Width > this.DrawingSurface.Size.Width) {
+                        xOffset = -size.Width;
+                        // Reduce offset if buttons arent going to be visible
+                        if (pIsRootSelected && !pHasFiles) {
+                            xOffset += quickActionButtons[0].Size.Width;
+                        }
+                    }
+                    if (cursor.Y + size.Height > this.DrawingSurface.Size.Height)
+                        yOffset = -size.Height;
+                    foreach (Control control in quickActionButtons) {
+                        control.Visible = true;
+                    }
+                    // Set MakeRoot button visibility
+                    int firstRowOffset = 0;
+                    if (pIsRootSelected) {
+                        quickActionButtons[0].Visible = false;
+                        firstRowOffset = quickActionButtons[0].Size.Width;
+                    }
+                    // Set first row positions
+                    quickActionButtons[0].Location = new System.Drawing.Point(cursor.X + xOffset, cursor.Y + yOffset);
+                    quickActionButtons[1].Location = new System.Drawing.Point(quickActionButtons[0].Location.X + quickActionButtons[0].Size.Width - firstRowOffset, quickActionButtons[0].Location.Y);
+                    quickActionButtons[2].Location = new System.Drawing.Point(quickActionButtons[1].Location.X + quickActionButtons[1].Size.Width, quickActionButtons[1].Location.Y);
+                    quickActionButtons[3].Location = new System.Drawing.Point(quickActionButtons[0].Location.X, quickActionButtons[0].Location.Y + quickActionButtons[0].Size.Height);
+                    // Set OpenFile button visibility
+                    int secondRowOffset = 0;
+                    if (!pHasFiles) {
+                        quickActionButtons[3].Visible = false;
+                        secondRowOffset = quickActionButtons[3].Size.Width;
+                    }
+                    // Set second row positions
+                    quickActionButtons[4].Location = new System.Drawing.Point(quickActionButtons[3].Location.X + quickActionButtons[3].Size.Width - secondRowOffset, quickActionButtons[3].Location.Y);
+                    quickActionButtons[5].Location = new System.Drawing.Point(quickActionButtons[4].Location.X + quickActionButtons[4].Size.Width, quickActionButtons[4].Location.Y);
+
+                } else {
+                    HideQuickAction();
                 }
-                if (cursor.Y + size.Height > this.DrawingSurface.Size.Height)
-                    yOffset = -size.Height;foreach (Control control in quickActionButtons) {
-                    control.Visible = true;
-                }
-                // Set MakeRoot button visibility
-                int firstRowOffset = 0;
-                if (pIsRootSelected) {
-                    quickActionButtons[0].Visible = false;
-                    firstRowOffset = quickActionButtons[0].Size.Width;
-                }
-                // Set first row positions
-                quickActionButtons[0].Location = new System.Drawing.Point(cursor.X + xOffset, cursor.Y + yOffset);
-                quickActionButtons[1].Location = new System.Drawing.Point(quickActionButtons[0].Location.X + quickActionButtons[0].Size.Width - firstRowOffset, quickActionButtons[0].Location.Y);
-                quickActionButtons[2].Location = new System.Drawing.Point(quickActionButtons[1].Location.X + quickActionButtons[1].Size.Width, quickActionButtons[1].Location.Y);
-                quickActionButtons[3].Location = new System.Drawing.Point(quickActionButtons[0].Location.X, quickActionButtons[0].Location.Y + quickActionButtons[0].Size.Height);
-                // Set OpenFile button visibility
-                int secondRowOffset = 0;
-                if (!pHasFiles) {
-                    quickActionButtons[3].Visible = false;
-                    secondRowOffset = quickActionButtons[3].Size.Width;
-                }
-                // Set second row positions
-                quickActionButtons[4].Location = new System.Drawing.Point(quickActionButtons[3].Location.X + quickActionButtons[3].Size.Width - secondRowOffset, quickActionButtons[3].Location.Y);
-                quickActionButtons[5].Location = new System.Drawing.Point(quickActionButtons[4].Location.X + quickActionButtons[4].Size.Width, quickActionButtons[4].Location.Y);
-                
-            } else {
-                HideQuickAction();
             }
         }
 
         private void HideQuickAction() {
+            if (threeDView.Initialized) { 
             foreach (Control control in quickActionButtons) {
                 control.Visible = false;
             }
-            quickActionVisible = false;
+            quickActionVisible = false;}
         }
 
         private void OpenFile() {
@@ -307,13 +341,14 @@ namespace ThreeDViewCS {
                 Parser.StreamToBytes(
                     MFiles.GetFileContent(threeDView.SelectedObject, files[0].ID)));
 
-            DialogResult dialogResult = MessageBox.Show(
+            /*DialogResult dialogResult = MessageBox.Show(
                 "Do you want to edit the file?\n\nYes - Writable\nNo - Read-only",
                 "Select opening mode, please.",
                 MessageBoxButtons.YesNo);
-            bool writable = dialogResult == DialogResult.Yes;
+                */
+            bool writable = false; //dialogResult == DialogResult.Yes;
 
-            if (writable) {
+            /*if (writable) {
                 MFCheckOutStatus checkOutStatus = MFiles.GetCheckOutStatus(threeDView.SelectedObject);
                 if (checkOutStatus != MFCheckOutStatus.CheckedOut) {
                     MFiles.SetCheckOutStatus(threeDView.SelectedObject, MFCheckOutStatus.CheckedOutToMe);
@@ -326,10 +361,10 @@ namespace ThreeDViewCS {
                 } else {
                     writable = false;
                 }
-            }
+            }*/
 
             Processes.Start(filePath, writable, (o, e) => {
-                try {
+                /*try {
                     if (DialogResult.Yes == MessageBox.Show(
                             "Do you want to upload your changes?",
                             "",
@@ -341,7 +376,19 @@ namespace ThreeDViewCS {
                 }
                 MFiles.SetCheckOutStatus(threeDView.SelectedObject, MFCheckOutStatus.CheckedIn);
                 //Console.WriteLine("After checkin: " + MFiles.GetCheckOutStatus(threeDView.SelectedObject));
+                */
             });
+        }
+
+        private void info_menuItem_Click(object sender, EventArgs e) {
+            info_panel.Visible = !info_panel.Visible;
+        }
+
+        private void FillInfoPanel() {
+            this.GLVendor_text.Text = threeDView.GetConfigString("gl_vendor");
+            this.GLRenderer_text.Text = threeDView.GetConfigString("gl_renderer");
+            this.GLVersion_text.Text = threeDView.GetConfigString("gl_version");
+            this.GLSLVersion_text.Text = threeDView.GetConfigString("glsl_version");
         }
     }
 }
