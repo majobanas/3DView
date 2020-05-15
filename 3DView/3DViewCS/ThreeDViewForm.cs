@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using System.Collections.Generic;
 using MFiles.MFWS.Structs;
 using ThreeDViewCLR;
 
@@ -9,12 +10,16 @@ namespace ThreeDViewCS {
     public partial class ThreeDViewForm : Form {
         // 3DView
         public ThreeDView threeDView = null;
-
+        // Quick action
         private bool quickActionVisible = false;
         private Control[] quickActionButtons;
+        private bool openDetailsRotation = false;
+        // Properties filter
+        private int propertiesFilterPage = 0;
 
         public ThreeDViewForm() {
             InitializeComponent();
+            this.MenuStrip.BringToFront();
             quickActionButtons = new[] { MakeRoot_button, AddFrom_button, AddTo_button, OpenFile_button, RemoveFrom_button, RemoveTo_button };
 
             threeDView = new ThreeDView(Parser.applicationPath);
@@ -147,14 +152,21 @@ namespace ThreeDViewCS {
                 this.Text = "3DView    [ " + MFiles.VaultName + " ]    [ " + MFiles.ClientName + " ]";
 
                 if (MFiles.LoggedIn) {
+                    // Object types
                     MFiles.ReadTypes();
                     MFiles.ReadTypeIcons();
                     threeDView.InitializeCreationFilterTypes();
                     AddCreationFilterCheckBoxes();
                     threeDView.InitializeVisibilityFilterTypes();
                     AddVisibilityFilterCheckBoxes();
+                    // Properties
+                    MFiles.ReadProperties();
+                    threeDView.InitializePropertiesFilter();
+                    AddPropertiesFilterCheckBoxes();
+                    // C++
                     threeDView.InitializeView(DrawingSurface.Handle);
-                    FillInfoPanel();
+                    // GPU info
+                    FillGPUPanel();
                     // Enable picking objects in fullscreen mode
                     this.WindowState = FormWindowState.Normal;
                     this.CenterToScreen();
@@ -171,8 +183,9 @@ namespace ThreeDViewCS {
             MenuStrip.Visible = pBool;
             DrawingSurface.Visible = pBool;
             this.MaximizeBox = pBool;
-            this.MinimizeBox = pBool;
+            //this.MinimizeBox = pBool;
         }
+
 
         private void DrawingSurface_Down(object sender, MouseEventArgs pEvent) {
             if (threeDView.Initialized) {
@@ -190,12 +203,16 @@ namespace ThreeDViewCS {
                     }
                     HideQuickAction();
                 }
+                PropertiesFilter_panel.Visible = false;
+                GPU_panel.Visible = false;
+                CreationFilter_panel.Visible = false;
             }
         }
 
         private void DrawingSurface_Up(object sender, MouseEventArgs pEvent) {
             if (threeDView.Initialized) {
                 if (pEvent.Button == MouseButtons.Right) {
+
                     if (threeDView.SelectedObject != null) {
                         // Empty
                     }
@@ -203,13 +220,6 @@ namespace ThreeDViewCS {
             }
         }
 
-        private void DrawingSurface_Click(object sender, MouseEventArgs pEvent) {
-        }
-
-        private void Filter_menuItem_click(object sender, EventArgs pEvent) {
-            CreationFilter_panel.Visible = !CreationFilter_panel.Visible;
-            Debug.Log("Creation / Visibility Filter.Visible = :" + CreationFilter_panel.Visible);
-        }
 
         private void MakeRoot_button_MouseUp(object sender, MouseEventArgs pEvent) {
             if (pEvent.Button == MouseButtons.Left) {
@@ -283,15 +293,18 @@ namespace ThreeDViewCS {
                     if (cursor.X + size.Width > this.DrawingSurface.Size.Width) {
                         xOffset = -size.Width;
                         // Reduce offset if buttons arent going to be visible
-                        if (pIsRootSelected && !pHasFiles) {
-                            xOffset += quickActionButtons[0].Size.Width;
-                        }
+                        //if (pIsRootSelected && !pHasFiles) {
+                        //    xOffset += quickActionButtons[0].Size.Width;
+                        //}
                     }
-                    if (cursor.Y + size.Height > this.DrawingSurface.Size.Height)
+                    if (cursor.Y > this.DrawingSurface.Size.Height / 2)
+                    //if (cursor.Y + size.Height > this.DrawingSurface.Size.Height)
                         yOffset = -size.Height;
+                    // Set all buttons to visible
                     foreach (Control control in quickActionButtons) {
                         control.Visible = true;
                     }
+                    OpenDetails_button.Visible = true;
                     // Set MakeRoot button visibility
                     int firstRowOffset = 0;
                     if (pIsRootSelected) {
@@ -312,7 +325,21 @@ namespace ThreeDViewCS {
                     // Set second row positions
                     quickActionButtons[4].Location = new System.Drawing.Point(quickActionButtons[3].Location.X + quickActionButtons[3].Size.Width - secondRowOffset, quickActionButtons[3].Location.Y);
                     quickActionButtons[5].Location = new System.Drawing.Point(quickActionButtons[4].Location.X + quickActionButtons[4].Size.Width, quickActionButtons[4].Location.Y);
-
+                    // Set details position
+                    
+                    if (yOffset >= 0) {
+                        OpenDetails_button.Location = new System.Drawing.Point(quickActionButtons[4].Location.X, quickActionButtons[4].Location.Y + quickActionButtons[4].Size.Height);
+                        if (openDetailsRotation) {
+                            OpenDetails_button.BackgroundImage.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipNone);
+                            openDetailsRotation = false;
+                        }
+                    } else {
+                        OpenDetails_button.Location = new System.Drawing.Point(quickActionButtons[1].Location.X, quickActionButtons[1].Location.Y - OpenDetails_button.Size.Height);
+                        if (!openDetailsRotation) {
+                            OpenDetails_button.BackgroundImage.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipNone);
+                            openDetailsRotation = true;
+                        }
+                    }
                 } else {
                     HideQuickAction();
                 }
@@ -321,10 +348,14 @@ namespace ThreeDViewCS {
 
         private void HideQuickAction() {
             if (threeDView.Initialized) { 
-            foreach (Control control in quickActionButtons) {
-                control.Visible = false;
+                foreach (Control control in quickActionButtons) {
+                    control.Visible = false;
+                }
+                OpenDetails_button.Visible = false;
+                Details_panel.Visible = false;
+                //
+                quickActionVisible = false;
             }
-            quickActionVisible = false;}
         }
 
         private void OpenFile() {
@@ -340,13 +371,14 @@ namespace ThreeDViewCS {
             File.WriteAllBytes(filePath,
                 Parser.StreamToBytes(
                     MFiles.GetFileContent(threeDView.SelectedObject, files[0].ID)));
-
-            /*DialogResult dialogResult = MessageBox.Show(
-                "Do you want to edit the file?\n\nYes - Writable\nNo - Read-only",
+            // Write / Read dialog
+            bool writable = false; /*DialogResult.Yes == MessageBox.Show(
+                this,
+                "Do you want to edit the file?\n\n" +
+                "Yes - Writable\n" + 
+                "No - Read-only",
                 "Select opening mode, please.",
-                MessageBoxButtons.YesNo);
-                */
-            bool writable = false; //dialogResult == DialogResult.Yes;
+                MessageBoxButtons.YesNo);*/
 
             /*if (writable) {
                 MFCheckOutStatus checkOutStatus = MFiles.GetCheckOutStatus(threeDView.SelectedObject);
@@ -357,38 +389,127 @@ namespace ThreeDViewCS {
                     Console.WriteLine("Checked out to: " + objectVersion.CheckedOutTo);
                     Console.WriteLine("Checked out: " + objectVersion.ObjectCheckedOut);
                     Console.WriteLine("Checked out to this user: " + objectVersion.ObjectCheckedOutToThisUser);
-                    //Console.WriteLine("After checkout: " + MFiles.GetCheckOutStatus(threeDView.SelectedObject));
+                    Console.WriteLine("--After checkout: " + MFiles.GetCheckOutStatus(threeDView.SelectedObject));
                 } else {
                     writable = false;
                 }
             }*/
 
-            Processes.Start(filePath, writable, (o, e) => {
-                /*try {
-                    if (DialogResult.Yes == MessageBox.Show(
-                            "Do you want to upload your changes?",
+            Processes.Start(filePath, writable, 
+                // Writable Exited Callback
+                (s, e) => {
+                    /*try {
+                        // Upload changes? dialog
+                        if (DialogResult.Yes == MessageBox.Show(
+                            "Are you sure you want to upload your changes?",
                             "",
                             MessageBoxButtons.YesNo)) {
-                        MFiles.UploadFileContent(threeDView.SelectedObject, files[0].ID, Path.GetFullPath(filePath));
+                                threeDView.SelectedObject = MFiles.UploadFileContent(threeDView.SelectedObject, files[0].ID, Path.GetFullPath(filePath));
+                                MFiles.SetCheckOutStatus(threeDView.SelectedObject, MFCheckOutStatus.CheckedIn);
+                        }
+                    } catch (Exception pException) {
+                        Console.WriteLine("WrtableExitedCallback threw CATCH\n" + pException.ToString());
                     }
-                } catch (Exception pException) {
-                    Console.WriteLine(pException.ToString());
+                    //Console.WriteLine("After checkin: " + MFiles.GetCheckOutStatus(threeDView.SelectedObject));*/
                 }
-                MFiles.SetCheckOutStatus(threeDView.SelectedObject, MFCheckOutStatus.CheckedIn);
-                //Console.WriteLine("After checkin: " + MFiles.GetCheckOutStatus(threeDView.SelectedObject));
-                */
-            });
+            );
         }
 
-        private void info_menuItem_Click(object sender, EventArgs e) {
-            info_panel.Visible = !info_panel.Visible;
-        }
 
-        private void FillInfoPanel() {
+        private void FillGPUPanel() {
             this.GLVendor_text.Text = threeDView.GetConfigString("gl_vendor");
             this.GLRenderer_text.Text = threeDView.GetConfigString("gl_renderer");
             this.GLVersion_text.Text = threeDView.GetConfigString("gl_version");
             this.GLSLVersion_text.Text = threeDView.GetConfigString("glsl_version");
+        }
+
+        private void OpenDetails_button_MouseHover(object sender, EventArgs e) {
+            
+            if (threeDView.SelectedObject != null) {
+                Details_panel.Controls.Clear();
+                int index = 0;
+                int yLocation = 0;
+                int xLocation = 0;
+                PropertyValue[] properties = MFiles.GetProperties(threeDView.SelectedObject);
+                foreach (PropertyValue property in properties) {
+                    if (threeDView.PropertiesFilter[property.PropertyDef] == true) {
+                        if (MFiles.Properties[property.PropertyDef] != "" && property.TypedValue.DisplayValue != "") {
+
+                            Label propertyName = new Label();
+                            propertyName.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                            propertyName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+                            propertyName.AutoSize = true;
+                            propertyName.Location = new System.Drawing.Point(3, yLocation);
+                            propertyName.Text = MFiles.Properties[property.PropertyDef];// + ":    " + property.TypedValue.DisplayValue;
+                            propertyName.ForeColor = System.Drawing.Color.Gray;
+                            propertyName.ResumeLayout(true);
+                            propertyName.PerformLayout();
+                            Details_panel.Controls.Add(propertyName);
+                            Details_panel.ResumeLayout(true);
+                            Details_panel.PerformLayout();
+
+                            TextBox propertyValue = new TextBox();
+                            propertyValue.BorderStyle = BorderStyle.None;
+                            propertyValue.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                            propertyValue.AutoSize = false;
+                            propertyValue.Size = new System.Drawing.Size(200, propertyName.Size.Height);
+                            propertyValue.TextAlign = HorizontalAlignment.Center;
+                            propertyValue.Text = property.TypedValue.DisplayValue;
+                            propertyValue.Location = new System.Drawing.Point(propertyName.Size.Width, yLocation);
+                            propertyValue.ForeColor = System.Drawing.Color.White;
+                            propertyValue.BackColor = System.Drawing.Color.Black;
+
+                            propertyValue.ResumeLayout(true);
+                            propertyValue.PerformLayout();
+                            Details_panel.Controls.Add(propertyValue);
+                            Details_panel.ResumeLayout(true);
+                            Details_panel.PerformLayout();
+                            propertyValue.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                            propertyValue.Location = new System.Drawing.Point(Details_panel.Size.Width - propertyValue.Size.Width, yLocation);
+
+
+                            yLocation = propertyValue.Location.Y + propertyValue.Size.Height;
+                            index += 1;
+                        }
+                    }
+                }
+                OpenDetails_button.Visible = false;
+                Details_panel.Visible = true;
+                if (!openDetailsRotation) {
+                    Details_panel.Location = new System.Drawing.Point(quickActionButtons[0].Location.X, OpenDetails_button.Location.Y);
+                } else {
+                    Details_panel.Location = new System.Drawing.Point(quickActionButtons[0].Location.X, quickActionButtons[0].Location.Y - Details_panel.Size.Height);
+                }
+                System.Drawing.Point mousePosition = this.PointToClient(Cursor.Position);
+                if (DrawingSurface.Size.Width - mousePosition.X < Details_panel.Size.Width)
+                    Details_panel.Location = new System.Drawing.Point(DrawingSurface.Size.Width - Details_panel.Size.Width, Details_panel.Location.Y);
+            }
+        }
+
+        private void Filter_menuItem_click(object sender, EventArgs pEvent) {
+            HideQuickAction();
+            PropertiesFilter_panel.Visible = false;
+            GPU_panel.Visible = false;
+            CreationFilter_panel.Visible = !CreationFilter_panel.Visible;
+            Debug.Log("Creation / Visibility Filter.Visible = :" + CreationFilter_panel.Visible);
+        }
+
+        private void Properties_menuItem_Click(object sender, EventArgs pEvent) {
+            HideQuickAction();
+            CreationFilter_panel.Visible = false;
+            GPU_panel.Visible = false;
+            PropertiesFilter_panel.Visible = !PropertiesFilter_panel.Visible;
+        }
+
+        private void GPU_menuItem_Click(object sender, EventArgs pEvent) {
+            HideQuickAction();
+            CreationFilter_panel.Visible = false;
+            PropertiesFilter_panel.Visible = false;
+            GPU_panel.Visible = !GPU_panel.Visible;
+        }
+
+        private void Background_menuItem_Click(object sender, EventArgs pEvent) {
+            threeDView.CycleSkybox();
         }
     }
 }

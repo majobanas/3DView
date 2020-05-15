@@ -144,9 +144,19 @@ void ThreeDViewCLR::ThreeDViewWrapper::toggleRender(int pType, bool pBool)
 	_threeDView->toggleRender(pType, pBool);
 }
 
+void ThreeDViewCLR::ThreeDViewWrapper::toggleRender(int pType, int pID, bool pBool)
+{
+	_threeDView->toggleRender(pType, pID, pBool);
+}
+
 void ThreeDViewCLR::ThreeDViewWrapper::addTypeToLineStatus(int pType)
 {
 	_threeDView->addTypeToLineStatus(pType);
+}
+
+void ThreeDViewCLR::ThreeDViewWrapper::cycleSkybox()
+{
+	_threeDView->cycleSkybox();
 }
 
 String^ ThreeDViewCLR::ThreeDViewWrapper::getObjectTypeIDVersion()

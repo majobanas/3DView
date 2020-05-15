@@ -1,7 +1,6 @@
 #pragma once
 
 #include "core/material/AbstractMaterial.h"
-#include "core/Texture.h"
 
 class TextureMaterial : public AbstractMaterial {
 public:
@@ -13,6 +12,7 @@ public:
 	void renderPickIdentifier(Mesh* pMesh, glm::mat4* pTransform, glm::mat4* pModel, glm::mat4* pProjection) override;
 	void render(Mesh* pMesh, glm::mat4* pTransform, glm::mat4* pModel, glm::mat4* pProjection) override;
 
+	void setSkyboxCubemap(Texture* pCubemap) override;
 protected:
 
 private:

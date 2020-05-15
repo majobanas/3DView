@@ -167,26 +167,49 @@ void View::_initializeFrameBuffer()
 
 void View::processInput()
 {
+	_camera->setShiftPressed(Input::getKeyPressed(Input::Key::LShift));
+	_camera->setCtrlPressed(Input::getKeyPressed(Input::Key::LControl));
+
 	while (_renderWindow->pollEvent(_windowEvent)) {
 		switch (_windowEvent.type) {
+			// MouseWheel Scroll
 		case sf::Event::MouseWheelScrolled:
 			_camera->setMouseWheelDelta(_windowEvent.mouseWheelScroll.delta);
-
+			break;
+			// Mouse Move
+		case sf::Event::MouseMoved:
+			_camera->setMousePosition(_windowEvent.mouseMove.x, _windowEvent.mouseMove.y);
+			break;
+			// MouseButton Press
 		case sf::Event::MouseButtonPressed:
-
+			if (_windowEvent.mouseButton.button == sf::Mouse::Button::Middle) {
+				_camera->setMiddlePressed(true);
+				_renderWindow->setMouseCursorVisible(false);
+			}
 			break;
 		case sf::Event::MouseButtonReleased:
+			if (_windowEvent.mouseButton.button == sf::Mouse::Button::Middle) {
+				_camera->setMiddlePressed(false);
+				_renderWindow->setMouseCursorVisible(false);
+			}
 			break;
+			// Window Closed
 		case sf::Event::Closed:
 			_renderWindow->close();
 			break;
+			// Window Resized
 		case sf::Event::Resized:
 			_camera->updateResolution();
 			glBindFramebuffer(GL_FRAMEBUFFER, _frameBufferId);
 			glViewport(0, 0, _renderWindow->getSize().x, _renderWindow->getSize().y);
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
 			break;
+			/*// Window Lost Focus
+		case sf::Event::LostFocus:
+			break;
+			// Window Gained Focus
+		case sf::Event::GainedFocus:
+			break;*/
 		}
 	}
 }

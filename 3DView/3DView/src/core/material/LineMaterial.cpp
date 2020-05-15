@@ -170,7 +170,6 @@ void LineMaterial::render(glm::mat4* pViewProjection) {
 
 void LineMaterial::toggleRender(int pType, bool pBool)
 {
-
 	std::string tag = "";
 	std::string type = "_" + std::to_string(pType) + Config::itemSplitter;
 
@@ -195,18 +194,76 @@ void LineMaterial::toggleRender(int pType, bool pBool)
 bool LineMaterial::help(std::string pTag, int pType)
 {
 	int type2;
+	int id1;
+	int id2;
 	std::vector<std::string> split;
 	std::vector<std::string> split2;
 	boost::split(split, pTag, boost::is_any_of(Config::objVerSplitter));
 	if (split.at(0).find("_" + std::to_string(pType)) == std::string::npos) {
 		boost::split(split2, split.at(0), boost::is_any_of(Config::itemSplitter));
 		type2 = std::stoi(split2.at(0).substr(1, split2.at(0).size()));
+		id2 = std::stoi(split2.at(1));
+
+		split2.clear();
+		boost::split(split2, split.at(1), boost::is_any_of(Config::itemSplitter));
+		id1 = std::stoi(split2.at(1));
 	}
 	else {
 		boost::split(split2, split.at(1), boost::is_any_of(Config::itemSplitter));
 		type2 = std::stoi(split2.at(0).substr(1, split2.at(0).size()));
+		id2 = std::stoi(split2.at(1));
+
+		split2.clear();
+		boost::split(split2, split.at(0), boost::is_any_of(Config::itemSplitter));
+		id1 = std::stoi(split2.at(1));
 	}
-	return (Config::lineStatus[pType] == true && Config::lineStatus[type2] == true);
+	return (Config::lineStatus[pType] == true && Config::lineStatus[type2] == true) &&
+		   (Config::lineIDStatus[pType][id1] == true && Config::lineIDStatus[type2][id2] == true);
+
+}
+
+void LineMaterial::toggleRender(int pType, int pID, bool pBool)
+{
+
+	std::string tag = "";
+	std::string typeID = "_" + std::to_string(pType) + Config::itemSplitter + std::to_string(pID);
+
+	for (auto& pair : _from) {
+		tag = pair.first;
+		if (tag.find(typeID) != std::string::npos) {
+			Config::lineIDStatus[pType][pID] = pBool;
+			pair.second.render = help(tag, pType, pID);
+		}
+	}
+	for (auto& pair : _to) {
+		tag = pair.first;
+		if (tag.find(typeID) != std::string::npos) {
+			Config::lineIDStatus[pType][pID] = pBool;
+			pair.second.render = help(tag, pType, pID);
+		}
+	}
+	_addedRemovedFrom = true;
+	_addedRemovedTo = true;
+}
+
+bool LineMaterial::help(std::string pTag, int pType, int pID)
+{
+	int type2;
+	int id2;
+	std::vector<std::string> split;
+	std::vector<std::string> split2;
+	boost::split(split, pTag, boost::is_any_of(Config::objVerSplitter));
+	if (split.at(0).find("_" + std::to_string(pType) + Config::itemSplitter + std::to_string(pID)) == std::string::npos) {
+		boost::split(split2, split.at(0), boost::is_any_of(Config::itemSplitter));
+		type2 = std::stoi(split2.at(0).substr(1, split2.at(0).size()));
+		id2 = std::stoi(split2.at(1));
+	}
+	else {
+		boost::split(split2, split.at(1), boost::is_any_of(Config::itemSplitter));
+		type2 = std::stoi(split2.at(0).substr(1, split2.at(0).size()));
+		id2 = std::stoi(split2.at(1));
+	}
+	return (Config::lineIDStatus[pType][pID] == true && Config::lineIDStatus[type2][id2] == true);
 
 }
 

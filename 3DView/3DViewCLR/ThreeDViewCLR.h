@@ -24,8 +24,11 @@ namespace ThreeDViewCLR {
 		void processSecond();
 
 		void toggleRender(int pType, bool pBool);
+		void toggleRender(int pType, int pID, bool pBool);
 
 		void addTypeToLineStatus(int pType);
+
+		void cycleSkybox();
 	protected:
 		String^ getObjectTypeIDVersion();
 

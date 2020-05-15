@@ -31,12 +31,18 @@ public:
 	float getHeight();
 	
 	void setMouseWheelDelta(float pDelta);
+	void setMousePosition(float pX, float pY);
+
+	void setMiddlePressed(bool pBool);
+	void setShiftPressed(bool pBool);
+	void setCtrlPressed(bool pBool);
 private:
 	sf::RenderWindow* _renderWindow = NULL;
 
 	int _height = 0;
 	int _width = 0;
 	sf::Vector2i _windowCenter;
+	sf::Vector2i _mousePosition;
 	sf::Vector2i _previousMousePosition;
 	sf::Vector2i _mousePositionDifference;
 	glm::vec2 _movementRotation;

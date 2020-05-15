@@ -12,6 +12,7 @@ namespace ThreeDViewCS {
     public static class MFiles {
 
         public static Dictionary<int, string> Types = new Dictionary<int, string>();
+        public static Dictionary<int, string> Properties = new Dictionary<int, string>();
 
         public static bool LoggedIn { get; private set; }
         public static string VaultName { get; private set; }
@@ -55,6 +56,24 @@ namespace ThreeDViewCS {
 
 
                 LoggedIn = true;
+            }
+        }
+
+        public static void ReadProperties() {
+            PropertyDef[] properties = client.Get<PropertyDef[]>(MFRequest.PropertyDefinitions());
+            foreach (PropertyDef property in properties) {
+                Properties.Add(property.ID, property.Name);
+                //Console.WriteLine(
+                    //" Name: " + property.Name + '\n' +
+                    /*"   AllObjectTypes: " + property.AllObjectTypes + '\n' +
+                    "   AutomaticValue: " + property.AutomaticValue + '\n' +
+                    "   AutomaticValueType: " + property.AutomaticValueType.ToString() + '\n' +
+                    "   BasedOnValueList: " + property.BasedOnValueList + '\n' +
+                    "   DataType: " + property.DataType.ToString() + '\n' +*/
+                    //"   ID: " + property.ID + '\n' +
+                    //"   OpjectType: " + property.ObjectType + '\n' +
+                    //"   ValueList: " + property.ValueList + '\n' +
+                    //"--------------------------------------------");
             }
         }
 
@@ -124,10 +143,11 @@ namespace ThreeDViewCS {
             return client.Get<Stream>(MFRequest.Contents(pMFilesObject.Type, pMFilesObject.ID, pMFilesObject.Version, pFileID));
         }
 
-        public static ExtendedObjectVersion UploadFileContent(MFilesObject pMFilesObject, int pFileID, string pFullFilePath) {
-            return client.Put<ExtendedObjectVersion>(MFRequest.Contents(
+        public static MFilesObject UploadFileContent(MFilesObject pMFilesObject, int pFileID, string pFullFilePath) {
+            ObjectVersion objectVersion = client.Put<ObjectVersion>(MFRequest.Contents(
                 pMFilesObject.Type, pMFilesObject.ID, pMFilesObject.Version, pFileID),
-                new System.Net.Http.StreamContent(new FileInfo(pFullFilePath).OpenRead()));
+                File.Open(pFullFilePath, FileMode.Open));
+            return new MFilesObject(objectVersion.ObjVer.Type, objectVersion.ObjVer.ID, objectVersion.ObjVer.Version, pMFilesObject.Title);
         }
 
         public static MFCheckOutStatus GetCheckOutStatus(MFilesObject pMFilesObject) {
@@ -143,6 +163,25 @@ namespace ThreeDViewCS {
 
         public static ObjectVersion GetObjectVersion(MFilesObject pMFilesObject) {
             return client.Get<ObjectVersion>(MFRequest.ObjectVersion(pMFilesObject.Type, pMFilesObject.ID, pMFilesObject.Version));
+        }
+
+        public static PropertyValue[] GetProperties(MFilesObject pMFilesObject) {
+            return client.Get<PropertyValue[]>(
+                MFRequest.ObjectProperties(pMFilesObject.Type, pMFilesObject.ID, pMFilesObject.Version));//,
+                //new ObjVer[] { new ObjVer { Type = pMFilesObject.Type, ID = pMFilesObject.ID, Version = pMFilesObject.Version } }) ;
+        }
+
+        public static PropertyDef GetPropertyDef(int pPropertyID) {
+            return client.Get<PropertyDef>(MFRequest.PropertyDefinition(pPropertyID));
+        }
+
+        public static MFilesObject[] GetObjects(int pType) {
+            ObjectVersion[] result = client.Get<Results<ObjectVersion>>(MFRequest.ObjectsOfType(pType)).Items;
+            List<MFilesObject> mFilesObjects = new List<MFilesObject>();
+            foreach (ObjectVersion objectVersion in result) {
+                mFilesObjects.Add(new MFilesObject(objectVersion.ObjVer.Type, objectVersion.ObjVer.ID, objectVersion.ObjVer.Version, objectVersion.Title));
+            }
+            return mFilesObjects.ToArray();
         }
     }
 }

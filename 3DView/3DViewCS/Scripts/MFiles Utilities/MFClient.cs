@@ -104,8 +104,9 @@ namespace MFiles.MFWS {
                 request.Headers["X-Authentication"] = Authentication;
 
             if (pContent != null) {
+                request.ContentType = "text/plain";
+                //request.ContentType = "application/octet-stream";
                 if (pContent is Stream) {
-                    request.ContentType = "application/octet-stream";
                     Stream requestStream = request.GetRequestStream();
                     Stream sourceStream = (Stream)pContent;
                     sourceStream.CopyTo(requestStream);
@@ -119,8 +120,8 @@ namespace MFiles.MFWS {
                     requestStream.Flush();
                     requestStream.Close();
                 }
+                //Console.WriteLine("UPLOAD SUCCESSFUL");
             }
-
             WebResponse response;
             try {
                 response = request.GetResponse();
@@ -129,6 +130,7 @@ namespace MFiles.MFWS {
                 HandleError(pException);
                 throw;
             }
+            //Console.WriteLine("RESPONSE SUCCESSFUL");
 
             if (pReturnType == null)
                 return null;

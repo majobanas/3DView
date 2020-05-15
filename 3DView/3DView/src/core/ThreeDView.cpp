@@ -105,6 +105,11 @@ void ThreeDView::toggleRender(int pType, bool pBool)
 	_view->toggleRender(pType, pBool);
 }
 
+void ThreeDView::toggleRender(int pType, int pID, bool pBool)
+{
+	_view->space->toggleRender(pType, pID, pBool);
+}
+
 std::string ThreeDView::getObjectTypeIDVersion()
 {
 	return _view->getObjectTypeIDVersion();
@@ -143,4 +148,9 @@ int ThreeDView::getConfigInteger(std::string pKey)
 void ThreeDView::addTypeToLineStatus(int pType)
 {
 	Config::addTypeToLineStatus(pType);
+}
+
+void ThreeDView::cycleSkybox()
+{
+	_view->space->cycleSkybox();
 }

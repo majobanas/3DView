@@ -39,6 +39,11 @@ void SkyboxMaterial::render(Mesh* pMesh, glm::mat4* pTransform, glm::mat4* pMode
 	glFrontFace(GL_CCW);
 }
 
+void SkyboxMaterial::setSkyboxCubemap(Texture* pCubemap)
+{
+	_cubemapTexture = pCubemap;
+}
+
 void SkyboxMaterial::_lazyInitializeShader(std::string pShader)
 {
 	if (ShaderProgram::Shaders.find(pShader) != ShaderProgram::Shaders.end()) {

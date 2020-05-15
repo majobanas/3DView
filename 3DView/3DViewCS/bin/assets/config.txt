@@ -16,10 +16,13 @@ f spacing_x=16
 f spacing_y=8
 f spacing_z=20
 
-f object_scale=3;
+f model_scale=3;
+f object_scale=2;
+f root_marker_scale=3;
+f selection_marker_scale=3;
 f skybox_scale=500;
 
-s skybox_basename=space/
+s skybox_basename=fishtank/
 s skybox_extension=.png
 
 i font_size=50;

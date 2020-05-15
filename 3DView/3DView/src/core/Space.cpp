@@ -9,30 +9,30 @@ std::map<int, std::map<int, int>> Space::_occupied = std::map<int, std::map<int,
 // -------------------------------------------- PUBLIC --------------------------------------------
 Space::Space()
 {
-
-	_skyboxTexture = Texture::loadCubemap(Config::s["skybox_basename"], Config::s["skybox_extension"]);
+	_loadSkyboxTextures();
+	//_skyboxTextures = Texture::loadCubemap(Config::s["skybox_basename"], Config::s["skybox_extension"]);
 	_skybox = new Object(
 		Config::f["skybox_scale"],
 		"cube_flat.obj",
-		new SkyboxMaterial(_skyboxTexture));
+		new SkyboxMaterial(_currentSkyboxTexture));
 
 	_selectionMarker = new Object(
-		Config::f["object_scale"],
+		Config::f["selection_marker_scale"],
 		Config::s["marker_model"],
 		new TextureMaterial(
 			Texture::load("marker_texture.png"),
 			-1.0f,
 			Texture::load("marker_specular.png"),
-			_skyboxTexture));
+			_currentSkyboxTexture));
 
 	_rootMarker = new Object(
-		Config::f["object_scale"],
+		Config::f["root_marker_scale"],
 		Config::s["root_model"],
 		new TextureMaterial(
 			Texture::load("root_texture.png"),
 			-1.0f,
 			Texture::load("root_specular.png"),
-			_skyboxTexture));
+			_currentSkyboxTexture));
 
 	_lineMaterial = new LineMaterial(200.0f);
 	
@@ -71,7 +71,7 @@ void Space::addRoot(int pType, int pID, int pVersion, std::string pTitle, std::s
 	float pickIdentifier = (1.0f / 256) * (_objectCount + 1);
 	std::string model = Config::s[pModel];
 
-	MObject* root = new MObject(objVer, pickIdentifier, model, _skyboxTexture);
+	MObject* root = new MObject(objVer, pickIdentifier, model, _currentSkyboxTexture);
 
 	_selectedObject = root;
 	_root = _selectedObject;
@@ -108,7 +108,7 @@ void Space::addFrom(int pFromType, int pFromID, int pFromVersion, std::string pT
 		float pickIdentifier = (1.0f / 256) * (_objectCount + 1);
 		std::string model = Config::s[pFromModel];
 
-		MObject* from = new MObject(objVer, pickIdentifier, model, _skyboxTexture);
+		MObject* from = new MObject(objVer, pickIdentifier, model, _currentSkyboxTexture);
 		MObject* alreadyExisting = _add(from);
 
 		if (alreadyExisting == NULL) {
@@ -133,7 +133,7 @@ void Space::addTo(int pToType, int pToID, int pToVersion, std::string pTitle, st
 		float pickIdentifier = (1.0f / 256) * (_objectCount + 1);
 		std::string model = Config::s[pToModel];
 		
-		MObject* to = new MObject(objVer, pickIdentifier, model, _skyboxTexture);
+		MObject* to = new MObject(objVer, pickIdentifier, model, _currentSkyboxTexture);
 		MObject* alreadyExisting = _add(to);
 
 		if (alreadyExisting == NULL) {
@@ -322,10 +322,24 @@ void Space::toggleRender(int pType, bool pBool)
 	if (_objects.find(pType) != _objects.end()) {
 		for (auto& id : _objects[pType]) {
 			for (auto& version : id.second) {
-				version.second->render = pBool;
+				version.second->render = Config::lineIDStatus[pType][id.first] && pBool;
+				//version.second->render = pBool;
 			}
 		}
 		_lineMaterial->toggleRender(pType, pBool);
+	}
+}
+void Space::toggleRender(int pType, int pID, bool pBool)
+{
+	if (_objects.find(pType) != _objects.end()) {
+		for (auto& id : _objects[pType]) {
+			if (id.first == pID) {
+				for (auto& version : id.second) {
+					version.second->render = pBool;
+				}
+			}
+		}
+		_lineMaterial->toggleRender(pType, pID, pBool);
 	}
 }
 glm::vec3 Space::freePosition(glm::vec3 pPosition)
@@ -346,6 +360,38 @@ glm::vec3 Space::freePosition(glm::vec3 pPosition)
 
 	_occupied[pPosition.x][pPosition.z] += 1;
 	return pPosition + glm::vec3(0.0f, -yCount * Config::f["spacing_y"], 0.0f);
+}
+
+void Space::cycleSkybox()
+{
+	_currentSkyboxIndex = (_currentSkyboxIndex < _skyboxTextures.size() - 1) ? _currentSkyboxIndex + 1 : 0;
+	_currentSkyboxTexture = _skyboxTextures.at(_currentSkyboxIndex);
+
+	_skybox->getMaterial()->setSkyboxCubemap(_currentSkyboxTexture);
+
+	for (auto& type : _objects) {
+		for (auto& id : type.second) {
+			for (auto& version : id.second) {
+				version.second->getMaterial()->setSkyboxCubemap(_currentSkyboxTexture);
+			}
+		}
+	}
+}
+
+void Space::_loadSkyboxTextures()
+{
+	std::string directory = Config::applicationPath + Config::s["cubemap_path"];
+	std::string path;
+	std::string cmd;
+	for (const auto& entry : std::filesystem::directory_iterator(directory)) {
+		path = entry.path().string();
+		cmd = path.substr(directory.size(), path.size());
+		cmd += "/";
+		std::cout << cmd << std::endl;
+		_skyboxTextures.push_back(Texture::loadCubemap(cmd, ".png"));
+	}
+	_currentSkyboxTexture = _skyboxTextures.at(0);
+	_currentSkyboxIndex = 0;
 }
 
 // -------------------------------------------- PRIVATE --------------------------------------------

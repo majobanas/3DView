@@ -7,6 +7,7 @@
 
 #include "core/Mesh.h"
 #include "core/ShaderProgram.h"
+#include "core/Texture.h"
 
 #include "glm/gtc/type_ptr.hpp"
 #include "glm/gtx/string_cast.hpp"
@@ -22,6 +23,8 @@ public:
 	virtual void render(Mesh* pMesh, glm::mat4* pTransform, glm::mat4* pModel, glm::mat4* pProjection) = 0;
 
 	void setPickIdentifier(float pPickIdentifier);
+
+	virtual void setSkyboxCubemap(Texture* pCubemap);
 
 protected:
 	ShaderProgram* _shader = NULL;

@@ -5,6 +5,7 @@
 const std::string Config::objVerSplitter = "%";
 const std::string Config::itemSplitter = "?";
 std::map<int, bool> Config::lineStatus = std::map<int, bool>();
+std::map<int, std::map<int, bool>> Config::lineIDStatus = std::map<int, std::map<int, bool>>();
 
 std::map<std::string, int> Config::i = std::map<std::string, int>();
 std::map<std::string, float> Config::f = std::map<std::string, float>();
@@ -20,6 +21,10 @@ glm::vec3 Config::rootColor = glm::vec3(1.0f, 0.0f, 1.0f);
 void Config::addTypeToLineStatus(int pType)
 {
 	lineStatus[pType] = true;
+}
+
+void Config::addTypeIDToLineStatus(int pType, int pID) {
+	lineIDStatus[pType][pID] = true;
 }
 
 void Config::readConfig(std::string pConfigPath)

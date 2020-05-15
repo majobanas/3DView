@@ -38,6 +38,7 @@ public:
 	void processSecond();
 
 	void toggleRender(int pType, bool pBool);
+	void toggleRender(int pType, int pID, bool pBool);
 
 	std::string getObjectTypeIDVersion();
 
@@ -50,6 +51,8 @@ public:
 	int getConfigInteger(std::string pKey);
 
 	void addTypeToLineStatus(int pType);
+	
+	void cycleSkybox();
 private:
 	View* _view = NULL;
 };

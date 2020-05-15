@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+#include <filesystem>
 
 #include <vector>
 #include <map>
@@ -37,15 +39,21 @@ public:
 	void render(Camera* pCamera);
 
 	void toggleRender(int pType, bool pBool);
+	void toggleRender(int pType, int pID, bool pBool);
 
 	static glm::vec3 freePosition(glm::vec3 pPosition);
 
+	void cycleSkybox();
 
 private:
 	Object* _rootMarker = NULL;
 	Object* _selectionMarker = NULL;
 
-	Texture* _skyboxTexture = NULL;
+
+	void _loadSkyboxTextures();
+	std::vector<Texture*> _skyboxTextures;
+	int _currentSkyboxIndex = 0;
+	Texture* _currentSkyboxTexture = NULL;
 	Object* _skybox = NULL;
 
 	LineMaterial* _lineMaterial = NULL;

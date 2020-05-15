@@ -16,3 +16,7 @@ void AbstractMaterial::setPickIdentifier(float pPickIdentifier)
 	_pickIdentifierColor = glm::vec3(pPickIdentifier);
 }
 
+void AbstractMaterial::setSkyboxCubemap(Texture* pCubemap)
+{
+}
+

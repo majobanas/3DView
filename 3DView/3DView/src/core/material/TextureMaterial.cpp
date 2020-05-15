@@ -71,6 +71,10 @@ void TextureMaterial::render(Mesh* pMesh, glm::mat4* pTransform, glm::mat4* pMod
 
 	pMesh->streamToOpenGL(_aVertex, _aNormal, _aUV);
 }
+void TextureMaterial::setSkyboxCubemap(Texture* pCubemap)
+{
+	_cubemapTexture = pCubemap;
+}
 // -------------------------------------------- PRIVATE --------------------------------------------
 void TextureMaterial::_lazyInitializeShader(std::string pShader) {
 	if (ShaderProgram::Shaders.find(pShader) != ShaderProgram::Shaders.end()) {

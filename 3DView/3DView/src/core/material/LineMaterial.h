@@ -27,6 +27,8 @@ public:
 
     void toggleRender(int pType, bool pBool);
     bool help(std::string pTag, int pType);
+    void toggleRender(int pType, int pID, bool pBool);
+    bool help(std::string pTag, int pType, int pID);
 
     void clearFromTo();
 

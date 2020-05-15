@@ -13,8 +13,12 @@
 
 class Config {
 public:
+
 	static std::map<int, bool> lineStatus;
 	static void addTypeToLineStatus(int pType);
+
+	static std::map<int, std::map<int, bool>> lineIDStatus;
+	static void addTypeIDToLineStatus(int pType, int pID);
 
 	static const std::string objVerSplitter;
 	static const std::string itemSplitter;

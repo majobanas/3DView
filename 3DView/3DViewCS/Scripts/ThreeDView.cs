@@ -10,11 +10,15 @@ namespace ThreeDViewCS {
         public bool Initialized { get; private set; }
         public bool IsInFocus { get; set; }
 
+        public List<MFilesObject> DownloadedObjects = new List<MFilesObject>();
+
         public MFilesObject RootObject = null;
         public MFilesObject SelectedObject = null;
 
         private Dictionary<int, bool> CreationFilterType = new Dictionary<int, bool>();
         private Dictionary<int, bool> VisibilityFilterType = new Dictionary<int, bool>();
+        public Dictionary<int, bool> PropertiesFilter = new Dictionary<int, bool>();
+        
 
         public ThreeDView(string pApplicationPath) : base(pApplicationPath) {
         }
@@ -101,12 +105,14 @@ namespace ThreeDViewCS {
             }
 
         public void AddRoot(MFilesObject pRoot) {
+            DownloadedObjects.Add(new MFilesObject(pRoot.Type, pRoot.ID, pRoot.Version, pRoot.Title));
             addRoot(pRoot.Type, pRoot.ID, pRoot.Version, pRoot.Title, "project_model");
         }
 
         public void MakeRoot() {
             if (SelectedObject != RootObject) {
                 RootObject = SelectedObject;
+                DownloadedObjects.Clear();
                 makeRoot();
                 AddRoot(RootObject);
                 AddFrom(SelectedObject);
@@ -118,7 +124,7 @@ namespace ThreeDViewCS {
             MFilesObject[] froms = MFiles.GetRelationships(pSelectedObject, "from");
             for (int i = 0; i < froms.Length; i++) {
                 if (CreationFilterType[froms[i].Type]) {
-
+                    DownloadedObjects.Add(new MFilesObject(froms[i].Type, froms[i].ID, froms[i].Version, froms[i].Title));
                     addFrom(froms[i].Type, froms[i].ID, froms[i].Version, froms[i].Title, "from_model");
                 }
             }
@@ -128,6 +134,7 @@ namespace ThreeDViewCS {
             MFilesObject[] tos = MFiles.GetRelationships(pSelectedObject, "to");
             for (int i = 0; i < tos.Length; i++) {
                 if (CreationFilterType[tos[i].Type]) {
+                    DownloadedObjects.Add(new MFilesObject(tos[i].Type, tos[i].ID, tos[i].Version, tos[i].Title));
                     addTo(tos[i].Type, tos[i].ID, tos[i].Version, tos[i].Title, "to_model");
                 }
             }
@@ -139,6 +146,10 @@ namespace ThreeDViewCS {
 
         public void RemoveTo() {
             removeTo();
+        }
+
+        public void CycleSkybox() {
+            cycleSkybox();
         }
 
         public void InitializeCreationFilterTypes() {
@@ -161,7 +172,28 @@ namespace ThreeDViewCS {
             }
         }
         public void ToggleVisibilityFilterType(int pType, bool pBool) {
+            VisibilityFilterType[pType] = pBool;
             toggleRender(pType, pBool);
         }
+
+        public void InitializePropertiesFilter() {
+            foreach (KeyValuePair<int, string> pair in MFiles.Properties) {
+                PropertiesFilter.Add(pair.Key, true);
+            }
+        }
+
+        public void TogglePropertiesFilter(int pID, bool pBool) {
+            if (PropertiesFilter.ContainsKey(pID)) {
+                PropertiesFilter[pID] = pBool;
+            } else {
+                PropertiesFilter.Add(pID, pBool);
+            }
+        }
+
+        public void ToggleRender(int pType, int pID, bool pBool) {
+            if (VisibilityFilterType[pType])
+                toggleRender(pType, pID, pBool);
+        }
+
     }
 }

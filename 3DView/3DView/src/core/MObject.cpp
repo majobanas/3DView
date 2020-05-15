@@ -3,15 +3,16 @@
 
 class Space;
 
-
 // -------------------------------------------- PUBLIC --------------------------------------------
 MObject::MObject(ObjVer pObjVer, float pPickIdentifier, std::string pModel, Texture* pSkybox)
-	:	Object(Config::f["object_scale"], getNewModel(pObjVer.type), getNewMaterial(pObjVer.type, pPickIdentifier, pSkybox)),
+	:	Object(Config::i["load_models"] == 1 ? Config::f["model_scale"] : Config::f["object_scale"], 
+			getNewModel(pObjVer.type), getNewMaterial(pObjVer.type, pPickIdentifier, pSkybox)),
 		objVer(pObjVer),
 		render(true),
 		_pickIdentifier(pPickIdentifier),
 		textMaterial(new TextMaterial(pObjVer.title))
 {
+	Config::addTypeIDToLineStatus(objVer.type, objVer.ID);
 
 	lineTags = std::vector<std::string>();
 
@@ -209,28 +210,26 @@ std::string MObject::getNewModel(int pType)
 		if (Config::s.find(modelToFind) != Config::s.end()) {
 			return Config::s[modelToFind];
 		}
-		else {
-			return Config::s["project_model"];
-		}
 	}
-	else {
-		return Config::s["project_model"];
-	}
+	return Config::s["project_model"];
 }
 
 AbstractMaterial* MObject::getNewMaterial(int pType, float pPickIdentifier, Texture* pSkybox)
 {
 	std::string textureToLoad = std::to_string(pType);
 	if (Config::i["load_models"] == 1) {
-		return new TextureMaterial(
-			Texture::load(textureToLoad + "_texture.png"), 
-			pPickIdentifier, 
-			Texture::load(textureToLoad + "_specular.png"), 
-			pSkybox);
+		std::string modelToFind = std::to_string(pType) + "_model";
+		if (Config::s.find(modelToFind) != Config::s.end()) {
+			return new TextureMaterial(
+				Texture::load(textureToLoad + "_texture.png"),
+				pPickIdentifier,
+				Texture::load(textureToLoad + "_specular.png"),
+				pSkybox);
+		}
 	}
-	else {
-		_material = new TextureMaterial(
-			Texture::load(textureToLoad + ".png"), 
-			pPickIdentifier);
-	}
+	return new TextureMaterial(
+		Texture::load(textureToLoad + ".png"),
+		pPickIdentifier,
+		Texture::load("spec.png"),
+		pSkybox);
 }

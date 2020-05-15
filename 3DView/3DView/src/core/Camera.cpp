@@ -18,8 +18,7 @@ Camera::Camera(sf::RenderWindow* pRenderWindow, glm::vec3 pPosition, float pFov,
 	_viewProjection = new glm::mat4(1.0f);
 
 	updateResolution();
-	_windowCenter = sf::Vector2i(_width / 2, _height / 2);
-	_centralizeMouse();
+	//_centralizeMouse();
 	glDepthMask(GL_TRUE);
 	glEnable(GL_DEPTH_TEST); //make sure we test the depthbuffer
 	glDepthFunc(GL_LESS); // normal depth testing
@@ -49,36 +48,41 @@ void Camera::update(float pElapsedTime)
 	_moveStep = glm::vec3(0.0f);
 	_rotateStep = glm::vec3(0.0f);
 
-
-	if (Input::getMousePressed(_middleButton)) {
-		_middle = true;
-		_mousePositionDifference = sf::Mouse::getPosition(*_renderWindow) - _previousMousePosition;
+	//_mousePosition = sf::Mouse::getPosition(*_renderWindow);
+	if (_middle) { //Input::getMousePressed(_middleButton)) {
+		//_middle = true;
+		_mousePositionDifference = _mousePosition - _previousMousePosition;
 		_keepMouseOnSpot();
-		_mousePositionDifference.x = glm::clamp(_mousePositionDifference.x, -1, 1);
-		_mousePositionDifference.y = glm::clamp(_mousePositionDifference.y, -1, 1);
+		glm::vec2 _MPD = glm::vec2(_mousePositionDifference.x, _mousePositionDifference.y);
+		if (_MPD.x != 0.0f || _MPD.y != 0.0f) {
+			_MPD = glm::normalize(_MPD);
+		}
 		// SHIFT + MID = ROTACIA okolo zvoleneho objektu a okolo kamerovej osi Y
 		float rotSpeed = 100.0f;
-		if (Input::getKeyPressed(_shiftKey)) {
-			_shift = true;
-			_rotateStep.x -= _mousePositionDifference.y * rotSpeed;
-			_rotateStep.y -= _mousePositionDifference.x * rotSpeed;
+		if (_shift) { //Input::getKeyPressed(_shiftKey)) {
+			//_shift = true;
+			_rotateStep.x -= _MPD.y * rotSpeed;
+			_rotateStep.y -= _MPD.x * rotSpeed;
 			//std::cout << "SHIFT" << std::endl;
 		}
 		// CTRL + MID = ROTACIA okolo zvoleneho objektu a okolo zakladnej osi Y
-		else if (Input::getKeyPressed(_ctrlKey)) {
-			_ctrl = true;
-			_rotateStep.x -= _mousePositionDifference.y * rotSpeed;
-			_rotateStep.y -= _mousePositionDifference.x * rotSpeed;
+		else if (_ctrl) { //Input::getKeyPressed(_ctrlKey)) {
+			//_ctrl = true;
+			_rotateStep.x -= _MPD.y * rotSpeed;
+			_rotateStep.y -= _MPD.x * rotSpeed;
 			//std::cout << "CTRL" << std::endl;
 
 		}
 		// MID = PAN pozdlz X a Y osi kamery
 		else {
 			float panSpeed = 20.0f;
-			_moveStep.x -= _mousePositionDifference.x * panSpeed;
-			_moveStep.y += _mousePositionDifference.y * panSpeed;
+			_moveStep.x -= _MPD.x * panSpeed;
+			_moveStep.y += _MPD.y * panSpeed;
 			//std::cout << "PAN" << std::endl;
 		}
+	}
+	else {
+		_previousMousePosition = _mousePosition;
 	}
 	// SCROLL = ZOOM
 	if (_mouseWheelDelta != 0.0f) {
@@ -131,9 +135,9 @@ void Camera::update(float pElapsedTime)
 
 		_mousePositionDifference = sf::Vector2i(0, 0);
 		_mouseWheelDelta = 0.0f;
-		_shift = false;
-		_ctrl = false;
-		_middle = false;
+		//_shift = false;
+		//_ctrl = false;
+		//_middle = false;
 		_scroll = false;
 	}
 }
@@ -162,11 +166,14 @@ void Camera::updateResolution()
 {
 	_width = _renderWindow->getSize().x;
 	_height = _renderWindow->getSize().y;
+	_windowCenter = sf::Vector2i(_width / 2, _height / 2);
 	glViewport(0, 0, _width, _height);
 	_aspectRatio = (float)_width/(float)_height;
 	*_ortho = glm::ortho(0.0f, (float)_width, (float)_height, 0.0f, -1.0f, 1.0f);
 	*_projection = glm::mat4(glm::perspective(glm::radians(_fov), _aspectRatio, _nearPlane, _farPlane));
 	*_viewProjection = glm::mat4(*_projection * _transform->getInverse());
+	//std::cout << "Res: " + std::to_string(_width) + " " + std::to_string(_height) << std::endl;
+	//std::cout << "Cen: " + std::to_string(_windowCenter.x) + " " + std::to_string(_windowCenter.y) << std::endl;
 }
 
 float Camera::getWidth()
@@ -182,6 +189,23 @@ float Camera::getHeight()
 void Camera::setMouseWheelDelta(float pDelta)
 {
 	_mouseWheelDelta = pDelta;
+}
+void Camera::setMousePosition(float pX, float pY)
+{
+	_mousePosition.x = pX;
+	_mousePosition.y = pY;
+}
+void Camera::setMiddlePressed(bool pBool)
+{
+	_middle = pBool;
+}
+void Camera::setShiftPressed(bool pBool)
+{
+	_shift = pBool;
+}
+void Camera::setCtrlPressed(bool pBool)
+{
+	_ctrl = pBool;
 }
 // -------------------------------------------- PRIVATE --------------------------------------------
 void Camera::_keepMouseOnSpot()
