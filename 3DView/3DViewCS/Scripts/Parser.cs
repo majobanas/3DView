@@ -24,9 +24,9 @@ namespace ThreeDViewCS {
             if (pArgs.Length != 0) {
                 retrunArgs = pArgs[0].Split('%');
             }
-            Console.WriteLine("applicationPath: " + retrunArgs[0]);
-            Console.WriteLine("entryObjects: " + retrunArgs[1]);
-            Console.WriteLine("vaultGUID: " + retrunArgs[2]);
+            //Console.WriteLine("applicationPath: " + retrunArgs[0]);
+            //Console.WriteLine("entryObjects: " + retrunArgs[1]);
+            //Console.WriteLine("vaultGUID: " + retrunArgs[2]);
             return retrunArgs;
         }
 
@@ -45,19 +45,26 @@ namespace ThreeDViewCS {
             }
         }
 
-        public static MFilesObject MFilesObject(string pObjectTypeIDVersionTitle) {
-            MFilesObject result = null;
+        public static MFilesObject[] MFilesObject(string pObjectTypeIDVersionTitle) {
+            List<MFilesObject> result = new List<MFilesObject>();
             if (pObjectTypeIDVersionTitle != "NULL") {
-                string[] typeIDVersionTitle = pObjectTypeIDVersionTitle.Split(itemSplitter);
-                result = new MFilesObject(
-                    int.Parse(typeIDVersionTitle[0]),
-                    int.Parse(typeIDVersionTitle[1]),
-                    int.Parse(typeIDVersionTitle[2]),
-                    typeIDVersionTitle[3]
-                );
+                string[] objects = pObjectTypeIDVersionTitle.Split(objectSplitter);
+                //Console.WriteLine(objects.Length + pObjectTypeIDVersionTitle);
+                foreach (string obj in objects) {
+                    string[] typeIDVersionTitle = obj.Split(itemSplitter);
+                    //Console.WriteLine(typeIDVersionTitle.Length + obj);
+                    result.Add(new MFilesObject(
+                        int.Parse(typeIDVersionTitle[0]),
+                        int.Parse(typeIDVersionTitle[1]),
+                        int.Parse(typeIDVersionTitle[2]),
+                        typeIDVersionTitle[3]
+                    ));
+                }
+                
             }
-            Debug.Log("C# Parser.MFilesObject: " + (result != null ? result.ToString() : "NULL"));
-            return result;
+            if (result.Count == 0) return null;
+            //Console.WriteLine("C# Parser.MFilesObject: " + ((result != null) ? result.Type + " " + result.ID + " " + result.Version : "NULL"));
+            return result.ToArray();
         }
 
         public static string UnicodeToAscii(string pString) {

@@ -13,7 +13,7 @@ namespace ThreeDViewCS {
         public List<MFilesObject> DownloadedObjects = new List<MFilesObject>();
 
         public MFilesObject RootObject = null;
-        public MFilesObject SelectedObject = null;
+        public MFilesObject[] SelectedObject = null;
 
         private Dictionary<int, bool> CreationFilterType = new Dictionary<int, bool>();
         private Dictionary<int, bool> VisibilityFilterType = new Dictionary<int, bool>();
@@ -59,14 +59,15 @@ namespace ThreeDViewCS {
             for (int i = 0; i < 1; i++) {
                 Debug.Log("C# ThreeDView.LoadEntryObjects " + mFilesObjects[i].Type + Parser.itemSplitter + mFilesObjects[i].ID + Parser.itemSplitter + mFilesObjects[i].Version + Parser.itemSplitter + mFilesObjects[i].Title);
                 // Add Root (Becomes selectedObject)
-                SelectedObject = mFilesObjects[i];
-                RootObject = SelectedObject;
-                AddRoot(SelectedObject);
+                SelectedObject = mFilesObjects;
+                RootObject = SelectedObject[0];
+                AddRoot(SelectedObject[0]);
                 // Add From relationships
-                AddFrom(SelectedObject);
+                AddFrom(SelectedObject[0]);
                 // Add To relationships
-                AddTo(SelectedObject);
+                AddTo(SelectedObject[0]);
             }
+            SelectedObject = new MFilesObject[] { RootObject };
         }
 
         public void SetConfigString(string pKey, string pValue) {
@@ -92,16 +93,17 @@ namespace ThreeDViewCS {
             return getConfigFloat(pKey);
         }
 
-        public MFilesObject SelectObject() {
+        public MFilesObject[] SelectObject() {
+            SelectedObject = null;
             return Parser.MFilesObject(getObjectTypeIDVersion());
         }
 
         public bool IsRootSelected() {
             if (SelectedObject == null || RootObject == null)
                 return false;
-            return (SelectedObject.Type == RootObject.Type &&
-                SelectedObject.ID == RootObject.ID &&
-                SelectedObject.Version == RootObject.Version);
+            return (SelectedObject[0].Type == RootObject.Type &&
+                SelectedObject[0].ID == RootObject.ID &&
+                SelectedObject[0].Version == RootObject.Version);
             }
 
         public void AddRoot(MFilesObject pRoot) {
@@ -110,13 +112,13 @@ namespace ThreeDViewCS {
         }
 
         public void MakeRoot() {
-            if (SelectedObject != RootObject) {
-                RootObject = SelectedObject;
+            if (SelectedObject[0] != RootObject) {
+                RootObject = SelectedObject[0];
                 DownloadedObjects.Clear();
                 makeRoot();
                 AddRoot(RootObject);
-                AddFrom(SelectedObject);
-                AddTo(SelectedObject);
+                AddFrom(SelectedObject[0]);
+                AddTo(SelectedObject[0]);
             }
         }
 
@@ -193,6 +195,10 @@ namespace ThreeDViewCS {
         public void ToggleRender(int pType, int pID, bool pBool) {
             if (VisibilityFilterType[pType])
                 toggleRender(pType, pID, pBool);
+        }
+
+        public void SetDefaultView() {
+            setDefaultView();
         }
 
     }

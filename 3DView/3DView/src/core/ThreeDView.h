@@ -53,6 +53,8 @@ public:
 	void addTypeToLineStatus(int pType);
 	
 	void cycleSkybox();
+
+	void setDefaultView();
 private:
 	View* _view = NULL;
 };

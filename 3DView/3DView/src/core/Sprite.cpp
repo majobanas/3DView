@@ -3,9 +3,7 @@
 Sprite::Sprite(std::string pFileName)
 {
 	_texture = Texture::load(pFileName);
-	std::cout << pFileName << std::endl;
-	std::cout << std::to_string(_texture->getWidth()) + " | " + std::to_string(_texture->getWidth()) << std::endl;
-
+	
 	_transform = new Transform(glm::vec3(1.0f));
 	_transform->scale(glm::vec3(_texture->getWidth(), _texture->getHeight(), 0.0f));
 	_transform->scale(glm::vec3(0.5f, 0.5f, 0.0f));

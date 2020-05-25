@@ -36,7 +36,12 @@ public:
 	void setMiddlePressed(bool pBool);
 	void setShiftPressed(bool pBool);
 	void setCtrlPressed(bool pBool);
+
+	bool alignCameraWithRoot = false;
+	void setDefaultView();
 private:
+	glm::mat4 _originalTransform;
+
 	sf::RenderWindow* _renderWindow = NULL;
 
 	int _height = 0;
@@ -45,7 +50,6 @@ private:
 	sf::Vector2i _mousePosition;
 	sf::Vector2i _previousMousePosition;
 	sf::Vector2i _mousePositionDifference;
-	glm::vec2 _movementRotation;
 	glm::vec3 _movementDirection;
 	Transform* _transform = NULL;
 	float _fov = 0.0f;
@@ -69,6 +73,7 @@ private:
 	bool _ctrl = false;
 	bool _middle = false;
 	bool _scroll = false;
+
 
 	float _mouseWheelDelta;
 	glm::vec3 _rotationPoint = glm::vec3(0.0f);

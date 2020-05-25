@@ -16,6 +16,7 @@ public:
 	void setPosition(glm::vec3 pPosition);
 
 	void scale(glm::vec3 pScale);
+	void rotate(float pDegrees, glm::vec3 pAxis);
 
 private:
 	glm::mat4* _transform = NULL;

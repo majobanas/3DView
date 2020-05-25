@@ -36,3 +36,8 @@ void Transform::scale(glm::vec3 pScale)
 {
 	*_transform = glm::scale(*_transform, pScale);
 }
+
+void Transform::rotate(float pDegrees, glm::vec3 pAxis)
+{
+	*_transform *= glm::rotate(glm::radians(pDegrees), pAxis);
+}

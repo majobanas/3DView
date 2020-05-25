@@ -159,6 +159,11 @@ void ThreeDViewCLR::ThreeDViewWrapper::cycleSkybox()
 	_threeDView->cycleSkybox();
 }
 
+void ThreeDViewCLR::ThreeDViewWrapper::setDefaultView()
+{
+	_threeDView->setDefaultView();
+}
+
 String^ ThreeDViewCLR::ThreeDViewWrapper::getObjectTypeIDVersion()
 {
 	return gcnew String(_threeDView->getObjectTypeIDVersion().c_str());

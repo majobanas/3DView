@@ -23,6 +23,7 @@
     <ClCompile Include="..\src\core\material\AbstractMaterial.cpp" />
     <ClCompile Include="..\src\core\material\ColorMaterial.cpp" />
     <ClCompile Include="..\src\core\material\LineMaterial.cpp" />
+    <ClCompile Include="..\src\core\material\SelectionMaterial.cpp" />
     <ClCompile Include="..\src\core\material\SkyboxMaterial.cpp" />
     <ClCompile Include="..\src\core\material\TextMaterial.cpp" />
     <ClCompile Include="..\src\core\material\TextureMaterial.cpp" />
@@ -45,6 +46,7 @@
     <ClInclude Include="..\src\core\material\AbstractMaterial.h" />
     <ClInclude Include="..\src\core\material\ColorMaterial.h" />
     <ClInclude Include="..\src\core\material\LineMaterial.h" />
+    <ClInclude Include="..\src\core\material\SelectionMaterial.h" />
     <ClInclude Include="..\src\core\material\SkyboxMaterial.h" />
     <ClInclude Include="..\src\core\material\TextMaterial.h" />
     <ClInclude Include="..\src\core\material\TextureMaterial.h" />
@@ -70,6 +72,8 @@
     <None Include="..\..\3DViewCS\bin\assets\shaders\color.vs" />
     <None Include="..\..\3DViewCS\bin\assets\shaders\line.fs" />
     <None Include="..\..\3DViewCS\bin\assets\shaders\line.vs" />
+    <None Include="..\..\3DViewCS\bin\assets\shaders\selection.fs" />
+    <None Include="..\..\3DViewCS\bin\assets\shaders\selection.vs" />
     <None Include="..\..\3DViewCS\bin\assets\shaders\skybox.fs" />
     <None Include="..\..\3DViewCS\bin\assets\shaders\skybox.vs" />
     <None Include="..\..\3DViewCS\bin\assets\shaders\sprite.fs" />

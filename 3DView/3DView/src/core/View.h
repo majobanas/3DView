@@ -29,6 +29,8 @@ public:
 	void processSecond();
 
 	void toggleRender(int pType, bool pBool);
+	void alignCameraWithRoot();
+	void setDefaultView();
 
 	std::string getObjectTypeIDVersion();
 

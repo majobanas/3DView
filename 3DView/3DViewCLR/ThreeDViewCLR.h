@@ -29,6 +29,8 @@ namespace ThreeDViewCLR {
 		void addTypeToLineStatus(int pType);
 
 		void cycleSkybox();
+
+		void setDefaultView();
 	protected:
 		String^ getObjectTypeIDVersion();
 

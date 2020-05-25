@@ -33,12 +33,6 @@ namespace ThreeDViewCS {
             this.Visibility_pictureBox = new System.Windows.Forms.PictureBox();
             this.Creation_pictureBox = new System.Windows.Forms.PictureBox();
             this.PropertiesFilter_panel = new System.Windows.Forms.Panel();
-            this.MenuStrip = new System.Windows.Forms.MenuStrip();
-            this.Filter_menuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.logout_menuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.GPU_menuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.properties_menuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.Background_menuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenFile_button = new System.Windows.Forms.PictureBox();
             this.RemoveTo_button = new System.Windows.Forms.PictureBox();
             this.RemoveFrom_button = new System.Windows.Forms.PictureBox();
@@ -53,10 +47,18 @@ namespace ThreeDViewCS {
             this.OpenDetails_button = new System.Windows.Forms.PictureBox();
             this.Details_panel = new System.Windows.Forms.Panel();
             this.DrawingSurface = new ThreeDViewCS.DrawingSurface();
+            this.ExportToExcel_button = new System.Windows.Forms.PictureBox();
+            this.DefaultView_menuItem = new System.Windows.Forms.PictureBox();
+            this.MenuStrip = new System.Windows.Forms.Panel();
+            this.Background_menuItem = new System.Windows.Forms.PictureBox();
+            this.GPU_menuItem = new System.Windows.Forms.PictureBox();
+            this.Logout_menuItem = new System.Windows.Forms.PictureBox();
+            this.Properties_menuItem = new System.Windows.Forms.PictureBox();
+            this.UpdateProperties_menuItem = new System.Windows.Forms.PictureBox();
+            this.Filter_menuItem = new System.Windows.Forms.PictureBox();
             this.CreationFilter_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Visibility_pictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Creation_pictureBox)).BeginInit();
-            this.MenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.OpenFile_button)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RemoveTo_button)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RemoveFrom_button)).BeginInit();
@@ -65,18 +67,28 @@ namespace ThreeDViewCS {
             ((System.ComponentModel.ISupportInitialize)(this.MakeRoot_button)).BeginInit();
             this.GPU_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.OpenDetails_button)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ExportToExcel_button)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DefaultView_menuItem)).BeginInit();
+            this.MenuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Background_menuItem)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GPU_menuItem)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Logout_menuItem)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Properties_menuItem)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UpdateProperties_menuItem)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Filter_menuItem)).BeginInit();
             this.SuspendLayout();
             // 
             // CreationFilter_panel
             // 
+            this.CreationFilter_panel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.CreationFilter_panel.AutoSize = true;
             this.CreationFilter_panel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.CreationFilter_panel.Controls.Add(this.Visibility_pictureBox);
             this.CreationFilter_panel.Controls.Add(this.Creation_pictureBox);
-            this.CreationFilter_panel.Location = new System.Drawing.Point(0, 24);
+            this.CreationFilter_panel.Location = new System.Drawing.Point(520, 32);
             this.CreationFilter_panel.Margin = new System.Windows.Forms.Padding(0);
             this.CreationFilter_panel.Name = "CreationFilter_panel";
-            this.CreationFilter_panel.Size = new System.Drawing.Size(34, 16);
+            this.CreationFilter_panel.Size = new System.Drawing.Size(32, 16);
             this.CreationFilter_panel.TabIndex = 16;
             this.CreationFilter_panel.Visible = false;
             // 
@@ -94,7 +106,7 @@ namespace ThreeDViewCS {
             // Creation_pictureBox
             // 
             this.Creation_pictureBox.Image = ((System.Drawing.Image)(resources.GetObject("Creation_pictureBox.Image")));
-            this.Creation_pictureBox.Location = new System.Drawing.Point(18, 0);
+            this.Creation_pictureBox.Location = new System.Drawing.Point(16, 0);
             this.Creation_pictureBox.Margin = new System.Windows.Forms.Padding(0);
             this.Creation_pictureBox.Name = "Creation_pictureBox";
             this.Creation_pictureBox.Size = new System.Drawing.Size(16, 16);
@@ -104,73 +116,14 @@ namespace ThreeDViewCS {
             // 
             // PropertiesFilter_panel
             // 
+            this.PropertiesFilter_panel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.PropertiesFilter_panel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.PropertiesFilter_panel.Location = new System.Drawing.Point(48, 24);
+            this.PropertiesFilter_panel.Location = new System.Drawing.Point(552, 32);
             this.PropertiesFilter_panel.Margin = new System.Windows.Forms.Padding(0);
             this.PropertiesFilter_panel.Name = "PropertiesFilter_panel";
             this.PropertiesFilter_panel.Size = new System.Drawing.Size(27, 100);
             this.PropertiesFilter_panel.TabIndex = 22;
             this.PropertiesFilter_panel.Visible = false;
-            // 
-            // MenuStrip
-            // 
-            this.MenuStrip.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.MenuStrip.AutoSize = false;
-            this.MenuStrip.BackColor = System.Drawing.SystemColors.Control;
-            this.MenuStrip.Dock = System.Windows.Forms.DockStyle.None;
-            this.MenuStrip.GripMargin = new System.Windows.Forms.Padding(2);
-            this.MenuStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Filter_menuItem,
-            this.logout_menuItem,
-            this.GPU_menuItem,
-            this.properties_menuItem,
-            this.Background_menuItem});
-            this.MenuStrip.Location = new System.Drawing.Point(0, 0);
-            this.MenuStrip.Name = "MenuStrip";
-            this.MenuStrip.Size = new System.Drawing.Size(1264, 24);
-            this.MenuStrip.TabIndex = 18;
-            this.MenuStrip.Text = "Menu strip";
-            this.MenuStrip.Visible = false;
-            // 
-            // Filter_menuItem
-            // 
-            this.Filter_menuItem.Name = "Filter_menuItem";
-            this.Filter_menuItem.Size = new System.Drawing.Size(45, 20);
-            this.Filter_menuItem.Text = "Filter";
-            this.Filter_menuItem.Click += new System.EventHandler(this.Filter_menuItem_click);
-            // 
-            // logout_menuItem
-            // 
-            this.logout_menuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.logout_menuItem.Name = "logout_menuItem";
-            this.logout_menuItem.Size = new System.Drawing.Size(57, 20);
-            this.logout_menuItem.Text = "Logout";
-            this.logout_menuItem.Click += new System.EventHandler(this.logout_menuItem_Click);
-            // 
-            // GPU_menuItem
-            // 
-            this.GPU_menuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.GPU_menuItem.Name = "GPU_menuItem";
-            this.GPU_menuItem.Size = new System.Drawing.Size(42, 20);
-            this.GPU_menuItem.Text = "GPU";
-            this.GPU_menuItem.Click += new System.EventHandler(this.GPU_menuItem_Click);
-            // 
-            // properties_menuItem
-            // 
-            this.properties_menuItem.Name = "properties_menuItem";
-            this.properties_menuItem.Size = new System.Drawing.Size(72, 20);
-            this.properties_menuItem.Text = "Properties";
-            this.properties_menuItem.Click += new System.EventHandler(this.Properties_menuItem_Click);
-            // 
-            // Background_menuItem
-            // 
-            this.Background_menuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.Background_menuItem.Name = "Background_menuItem";
-            this.Background_menuItem.Size = new System.Drawing.Size(83, 20);
-            this.Background_menuItem.Text = "Background";
-            this.Background_menuItem.Click += new System.EventHandler(this.Background_menuItem_Click);
             // 
             // OpenFile_button
             // 
@@ -184,6 +137,7 @@ namespace ThreeDViewCS {
             this.OpenFile_button.TabIndex = 6;
             this.OpenFile_button.TabStop = false;
             this.OpenFile_button.Visible = false;
+            this.OpenFile_button.MouseHover += new System.EventHandler(this.OpenFile_button_MouseHover);
             this.OpenFile_button.MouseUp += new System.Windows.Forms.MouseEventHandler(this.OpenFile_button_MouseUp);
             // 
             // RemoveTo_button
@@ -199,13 +153,14 @@ namespace ThreeDViewCS {
             this.RemoveTo_button.TabStop = false;
             this.RemoveTo_button.Visible = false;
             this.RemoveTo_button.MouseDown += new System.Windows.Forms.MouseEventHandler(this.RemoveTo_button_MouseUp);
+            this.RemoveTo_button.MouseHover += new System.EventHandler(this.RemoveTo_button_MouseHover);
             // 
             // RemoveFrom_button
             // 
             this.RemoveFrom_button.BackColor = System.Drawing.Color.Black;
             this.RemoveFrom_button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("RemoveFrom_button.BackgroundImage")));
             this.RemoveFrom_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.RemoveFrom_button.Location = new System.Drawing.Point(837, 417);
+            this.RemoveFrom_button.Location = new System.Drawing.Point(773, 481);
             this.RemoveFrom_button.Margin = new System.Windows.Forms.Padding(0);
             this.RemoveFrom_button.Name = "RemoveFrom_button";
             this.RemoveFrom_button.Size = new System.Drawing.Size(64, 64);
@@ -213,13 +168,14 @@ namespace ThreeDViewCS {
             this.RemoveFrom_button.TabStop = false;
             this.RemoveFrom_button.Visible = false;
             this.RemoveFrom_button.MouseDown += new System.Windows.Forms.MouseEventHandler(this.RemoveFrom_button_MouseUp);
+            this.RemoveFrom_button.MouseHover += new System.EventHandler(this.RemoveFrom_button_MouseHover);
             // 
             // AddTo_button
             // 
             this.AddTo_button.BackColor = System.Drawing.Color.Black;
             this.AddTo_button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("AddTo_button.BackgroundImage")));
             this.AddTo_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.AddTo_button.Location = new System.Drawing.Point(773, 481);
+            this.AddTo_button.Location = new System.Drawing.Point(837, 417);
             this.AddTo_button.Margin = new System.Windows.Forms.Padding(0);
             this.AddTo_button.Name = "AddTo_button";
             this.AddTo_button.Size = new System.Drawing.Size(64, 64);
@@ -227,6 +183,7 @@ namespace ThreeDViewCS {
             this.AddTo_button.TabStop = false;
             this.AddTo_button.Visible = false;
             this.AddTo_button.MouseDown += new System.Windows.Forms.MouseEventHandler(this.AddTo_button_MouseUp);
+            this.AddTo_button.MouseHover += new System.EventHandler(this.AddTo_button_MouseHover);
             // 
             // AddFrom_button
             // 
@@ -241,6 +198,7 @@ namespace ThreeDViewCS {
             this.AddFrom_button.TabStop = false;
             this.AddFrom_button.Visible = false;
             this.AddFrom_button.MouseDown += new System.Windows.Forms.MouseEventHandler(this.AddFrom_button_MouseUp);
+            this.AddFrom_button.MouseHover += new System.EventHandler(this.AddFrom_button_MouseHover);
             // 
             // MakeRoot_button
             // 
@@ -255,15 +213,16 @@ namespace ThreeDViewCS {
             this.MakeRoot_button.TabStop = false;
             this.MakeRoot_button.Visible = false;
             this.MakeRoot_button.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MakeRoot_button_MouseUp);
+            this.MakeRoot_button.MouseHover += new System.EventHandler(this.MakeRoot_button_MouseHover);
             // 
             // GPU_panel
             // 
-            this.GPU_panel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.GPU_panel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.GPU_panel.Controls.Add(this.GLSLVersion_text);
             this.GPU_panel.Controls.Add(this.GLVersion_text);
             this.GPU_panel.Controls.Add(this.GLRenderer_text);
             this.GPU_panel.Controls.Add(this.GLVendor_text);
-            this.GPU_panel.Location = new System.Drawing.Point(1006, 24);
+            this.GPU_panel.Location = new System.Drawing.Point(680, 32);
             this.GPU_panel.Name = "GPU_panel";
             this.GPU_panel.Size = new System.Drawing.Size(200, 80);
             this.GPU_panel.TabIndex = 19;
@@ -344,21 +303,156 @@ namespace ThreeDViewCS {
             this.DrawingSurface.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.DrawingSurface.Location = new System.Drawing.Point(0, 24);
+            this.DrawingSurface.Location = new System.Drawing.Point(0, 0);
             this.DrawingSurface.Margin = new System.Windows.Forms.Padding(0);
             this.DrawingSurface.Name = "DrawingSurface";
-            this.DrawingSurface.Size = new System.Drawing.Size(1264, 657);
+            this.DrawingSurface.Size = new System.Drawing.Size(1264, 681);
             this.DrawingSurface.TabIndex = 0;
             this.DrawingSurface.Text = "drawingSurface";
             this.DrawingSurface.Visible = false;
             this.DrawingSurface.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DrawingSurface_Down);
             this.DrawingSurface.MouseUp += new System.Windows.Forms.MouseEventHandler(this.DrawingSurface_Up);
             // 
+            // ExportToExcel_button
+            // 
+            this.ExportToExcel_button.BackColor = System.Drawing.Color.Black;
+            this.ExportToExcel_button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ExportToExcel_button.BackgroundImage")));
+            this.ExportToExcel_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ExportToExcel_button.Location = new System.Drawing.Point(901, 481);
+            this.ExportToExcel_button.Margin = new System.Windows.Forms.Padding(0);
+            this.ExportToExcel_button.Name = "ExportToExcel_button";
+            this.ExportToExcel_button.Size = new System.Drawing.Size(64, 64);
+            this.ExportToExcel_button.TabIndex = 23;
+            this.ExportToExcel_button.TabStop = false;
+            this.ExportToExcel_button.Visible = false;
+            this.ExportToExcel_button.Click += new System.EventHandler(this.ExportToExcel_button_Click);
+            this.ExportToExcel_button.MouseHover += new System.EventHandler(this.ExportToExcel_button_MouseHover);
+            // 
+            // DefaultView_menuItem
+            // 
+            this.DefaultView_menuItem.BackColor = System.Drawing.Color.Black;
+            this.DefaultView_menuItem.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("DefaultView_menuItem.BackgroundImage")));
+            this.DefaultView_menuItem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.DefaultView_menuItem.Location = new System.Drawing.Point(96, 0);
+            this.DefaultView_menuItem.Margin = new System.Windows.Forms.Padding(0);
+            this.DefaultView_menuItem.Name = "DefaultView_menuItem";
+            this.DefaultView_menuItem.Size = new System.Drawing.Size(32, 32);
+            this.DefaultView_menuItem.TabIndex = 24;
+            this.DefaultView_menuItem.TabStop = false;
+            this.DefaultView_menuItem.Click += new System.EventHandler(this.DefaultView_button_Click);
+            this.DefaultView_menuItem.MouseHover += new System.EventHandler(this.DefaultView_menuItem_MouseHover);
+            // 
+            // MenuStrip
+            // 
+            this.MenuStrip.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.MenuStrip.BackColor = System.Drawing.Color.Black;
+            this.MenuStrip.Controls.Add(this.Background_menuItem);
+            this.MenuStrip.Controls.Add(this.GPU_menuItem);
+            this.MenuStrip.Controls.Add(this.Logout_menuItem);
+            this.MenuStrip.Controls.Add(this.Properties_menuItem);
+            this.MenuStrip.Controls.Add(this.DefaultView_menuItem);
+            this.MenuStrip.Controls.Add(this.UpdateProperties_menuItem);
+            this.MenuStrip.Controls.Add(this.Filter_menuItem);
+            this.MenuStrip.Location = new System.Drawing.Point(520, 0);
+            this.MenuStrip.Margin = new System.Windows.Forms.Padding(0);
+            this.MenuStrip.Name = "MenuStrip";
+            this.MenuStrip.Size = new System.Drawing.Size(224, 32);
+            this.MenuStrip.TabIndex = 25;
+            this.MenuStrip.Visible = false;
+            // 
+            // Background_menuItem
+            // 
+            this.Background_menuItem.BackColor = System.Drawing.Color.Black;
+            this.Background_menuItem.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Background_menuItem.BackgroundImage")));
+            this.Background_menuItem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Background_menuItem.Location = new System.Drawing.Point(128, 0);
+            this.Background_menuItem.Margin = new System.Windows.Forms.Padding(0);
+            this.Background_menuItem.Name = "Background_menuItem";
+            this.Background_menuItem.Size = new System.Drawing.Size(32, 32);
+            this.Background_menuItem.TabIndex = 31;
+            this.Background_menuItem.TabStop = false;
+            this.Background_menuItem.Click += new System.EventHandler(this.Background_menuItem_Click);
+            this.Background_menuItem.MouseHover += new System.EventHandler(this.Background_menuItem_MouseHover);
+            // 
+            // GPU_menuItem
+            // 
+            this.GPU_menuItem.BackColor = System.Drawing.Color.Black;
+            this.GPU_menuItem.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("GPU_menuItem.BackgroundImage")));
+            this.GPU_menuItem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.GPU_menuItem.Location = new System.Drawing.Point(160, 0);
+            this.GPU_menuItem.Margin = new System.Windows.Forms.Padding(0);
+            this.GPU_menuItem.Name = "GPU_menuItem";
+            this.GPU_menuItem.Size = new System.Drawing.Size(32, 32);
+            this.GPU_menuItem.TabIndex = 30;
+            this.GPU_menuItem.TabStop = false;
+            this.GPU_menuItem.Click += new System.EventHandler(this.GPU_menuItem_Click);
+            this.GPU_menuItem.MouseHover += new System.EventHandler(this.GPU_menuItem_MouseHover);
+            // 
+            // Logout_menuItem
+            // 
+            this.Logout_menuItem.BackColor = System.Drawing.Color.Black;
+            this.Logout_menuItem.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Logout_menuItem.BackgroundImage")));
+            this.Logout_menuItem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Logout_menuItem.Location = new System.Drawing.Point(192, 0);
+            this.Logout_menuItem.Margin = new System.Windows.Forms.Padding(0);
+            this.Logout_menuItem.Name = "Logout_menuItem";
+            this.Logout_menuItem.Size = new System.Drawing.Size(32, 32);
+            this.Logout_menuItem.TabIndex = 29;
+            this.Logout_menuItem.TabStop = false;
+            this.Logout_menuItem.Click += new System.EventHandler(this.logout_menuItem_Click);
+            this.Logout_menuItem.MouseHover += new System.EventHandler(this.Logout_menuItem_MouseHover);
+            // 
+            // Properties_menuItem
+            // 
+            this.Properties_menuItem.BackColor = System.Drawing.Color.Black;
+            this.Properties_menuItem.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Properties_menuItem.BackgroundImage")));
+            this.Properties_menuItem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Properties_menuItem.Location = new System.Drawing.Point(32, 0);
+            this.Properties_menuItem.Margin = new System.Windows.Forms.Padding(0);
+            this.Properties_menuItem.Name = "Properties_menuItem";
+            this.Properties_menuItem.Size = new System.Drawing.Size(32, 32);
+            this.Properties_menuItem.TabIndex = 28;
+            this.Properties_menuItem.TabStop = false;
+            this.Properties_menuItem.Click += new System.EventHandler(this.Properties_menuItem_Click);
+            this.Properties_menuItem.MouseHover += new System.EventHandler(this.Properties_menuItem_MouseHover);
+            // 
+            // UpdateProperties_menuItem
+            // 
+            this.UpdateProperties_menuItem.BackColor = System.Drawing.Color.Black;
+            this.UpdateProperties_menuItem.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("UpdateProperties_menuItem.BackgroundImage")));
+            this.UpdateProperties_menuItem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.UpdateProperties_menuItem.Location = new System.Drawing.Point(64, 0);
+            this.UpdateProperties_menuItem.Margin = new System.Windows.Forms.Padding(0);
+            this.UpdateProperties_menuItem.Name = "UpdateProperties_menuItem";
+            this.UpdateProperties_menuItem.Size = new System.Drawing.Size(32, 32);
+            this.UpdateProperties_menuItem.TabIndex = 27;
+            this.UpdateProperties_menuItem.TabStop = false;
+            this.UpdateProperties_menuItem.Visible = false;
+            this.UpdateProperties_menuItem.Click += new System.EventHandler(this.UpdatePropertiesToolStripMenuItem_Click);
+            this.UpdateProperties_menuItem.MouseHover += new System.EventHandler(this.UpdateProperties_menuItem_MouseHover);
+            // 
+            // Filter_menuItem
+            // 
+            this.Filter_menuItem.BackColor = System.Drawing.Color.Black;
+            this.Filter_menuItem.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Filter_menuItem.BackgroundImage")));
+            this.Filter_menuItem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Filter_menuItem.Location = new System.Drawing.Point(0, 0);
+            this.Filter_menuItem.Margin = new System.Windows.Forms.Padding(0);
+            this.Filter_menuItem.Name = "Filter_menuItem";
+            this.Filter_menuItem.Size = new System.Drawing.Size(32, 32);
+            this.Filter_menuItem.TabIndex = 26;
+            this.Filter_menuItem.TabStop = false;
+            this.Filter_menuItem.Click += new System.EventHandler(this.Filter_menuItem_click);
+            this.Filter_menuItem.MouseHover += new System.EventHandler(this.Filter_menuItem_MouseHover);
+            // 
             // ThreeDViewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.Controls.Add(this.MenuStrip);
+            this.Controls.Add(this.ExportToExcel_button);
             this.Controls.Add(this.PropertiesFilter_panel);
             this.Controls.Add(this.Details_panel);
             this.Controls.Add(this.OpenDetails_button);
@@ -371,8 +465,8 @@ namespace ThreeDViewCS {
             this.Controls.Add(this.CreationFilter_panel);
             this.Controls.Add(this.RemoveFrom_button);
             this.Controls.Add(this.DrawingSurface);
-            this.Controls.Add(this.MenuStrip);
-            this.MainMenuStrip = this.MenuStrip;
+            this.DoubleBuffered = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(3840, 2160);
             this.MinimizeBox = false;
@@ -384,8 +478,6 @@ namespace ThreeDViewCS {
             this.CreationFilter_panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Visibility_pictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Creation_pictureBox)).EndInit();
-            this.MenuStrip.ResumeLayout(false);
-            this.MenuStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.OpenFile_button)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RemoveTo_button)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RemoveFrom_button)).EndInit();
@@ -394,6 +486,15 @@ namespace ThreeDViewCS {
             ((System.ComponentModel.ISupportInitialize)(this.MakeRoot_button)).EndInit();
             this.GPU_panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.OpenDetails_button)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ExportToExcel_button)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DefaultView_menuItem)).EndInit();
+            this.MenuStrip.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Background_menuItem)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GPU_menuItem)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Logout_menuItem)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Properties_menuItem)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UpdateProperties_menuItem)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Filter_menuItem)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -488,7 +589,8 @@ namespace ThreeDViewCS {
                         if (!foundMatch) {
                             PropertyValue[] properties = MFiles.GetProperties(mFilesObject);
                             foreach (PropertyValue property in properties) {
-                                if (MFiles.Properties[property.PropertyDef] != "") {
+                                if (MFiles.Properties[property.PropertyDef] != "" &&
+                                    threeDView.PropertiesFilter[property.PropertyDef]) {
                                     displayText = property.TypedValue.DisplayValue.ToLower();
                                     //System.Console.WriteLine("  " + displayText);
                                     if (displayText.Length >= filterText.Length)
@@ -504,8 +606,6 @@ namespace ThreeDViewCS {
                         foundMatch = false;
                     }
                 };
-
-
 
                 index += 1;
             }
@@ -583,7 +683,6 @@ namespace ThreeDViewCS {
                 if (index >= propertiesPerPage) {
                     index = 0;
                     setVisible = false;
-                    //System.Console.WriteLine("SEK");
                 }
                 //System.Console.WriteLine(prop + pair.Value);
                 prop += 1;
@@ -652,16 +751,12 @@ namespace ThreeDViewCS {
         }
 
         private PictureBox Visibility_pictureBox;
-        private MenuStrip MenuStrip;
-        private ToolStripMenuItem Filter_menuItem;
         private PictureBox MakeRoot_button;
         private PictureBox AddFrom_button;
         private PictureBox AddTo_button;
         private PictureBox RemoveFrom_button;
         private PictureBox RemoveTo_button;
         private PictureBox OpenFile_button;
-        private ToolStripMenuItem logout_menuItem;
-        private ToolStripMenuItem GPU_menuItem;
         private Panel GPU_panel;
         private Label GLSLVersion_text;
         private Label GLVersion_text;
@@ -669,9 +764,16 @@ namespace ThreeDViewCS {
         private Label GLVendor_text;
         private PictureBox OpenDetails_button;
         private Panel Details_panel;
-        private ToolStripMenuItem properties_menuItem;
         private Panel PropertiesFilter_panel;
-        private ToolStripMenuItem Background_menuItem;
+        private PictureBox ExportToExcel_button;
+        private PictureBox DefaultView_menuItem;
+        private Panel MenuStrip;
+        private PictureBox Filter_menuItem;
+        private PictureBox Logout_menuItem;
+        private PictureBox Properties_menuItem;
+        private PictureBox UpdateProperties_menuItem;
+        private PictureBox GPU_menuItem;
+        private PictureBox Background_menuItem;
     }
     public class DrawingSurface : Control {
         protected override void OnPaint(PaintEventArgs pEvent) {

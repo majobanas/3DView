@@ -16,14 +16,14 @@ Space::Space()
 		"cube_flat.obj",
 		new SkyboxMaterial(_currentSkyboxTexture));
 
-	_selectionMarker = new Object(
+	_selectionMarker.push_back(new Object(
 		Config::f["selection_marker_scale"],
 		Config::s["marker_model"],
 		new TextureMaterial(
 			Texture::load("marker_texture.png"),
 			-1.0f,
 			Texture::load("marker_specular.png"),
-			_currentSkyboxTexture));
+			_currentSkyboxTexture)));
 
 	_rootMarker = new Object(
 		Config::f["root_marker_scale"],
@@ -34,7 +34,8 @@ Space::Space()
 			Texture::load("root_specular.png"),
 			_currentSkyboxTexture));
 
-	_lineMaterial = new LineMaterial(200.0f);
+	_lineMaterial = new LineMaterial(Config::f["skybox_scale"]);
+	selectionMaterial = new SelectionMaterial(Config::getColor(Config::s["selection_color"]));
 	
 	_root = NULL;
 	_selectedObject = NULL;
@@ -47,12 +48,17 @@ Space::~Space()
 {
 	delete _rootMarker;
 	_rootMarker = NULL;
-	delete _selectionMarker;
-	_selectionMarker = NULL;
+	for (auto& marker : _selectionMarker){
+		delete marker;
+		marker = NULL;
+	}
+	_selectionMarker.clear();
 	delete _skybox;
 	_skybox = NULL;
 	delete _lineMaterial;
 	_lineMaterial = NULL;
+	delete selectionMaterial;
+	selectionMaterial = NULL;
 	_root = NULL;
 	_selectedObject = NULL;
 	clear();
@@ -91,7 +97,20 @@ void Space::makeRoot()
 		clear();
 		_lineMaterial->clearFromTo();
 		Config::rotationPoint = glm::vec3(0.0f);
-		_selectionMarker->getTransform()->setPosition(glm::vec3(0.0f));
+		_selectionMarker.clear();
+		// create marker for this object
+		Object* marker = new Object(
+			Config::f["selection_marker_scale"],
+			Config::s["marker_model"],
+			new TextureMaterial(
+				Texture::load("marker_texture.png"),
+				-1.0f,
+				Texture::load("marker_specular.png"),
+				_currentSkyboxTexture));
+		// set marker position
+		marker->getTransform()->setPosition(glm::vec3(0.0f));
+		// add to list of markers
+		_selectionMarker.push_back(marker);
 		_rootMarker->getTransform()->setPosition(glm::vec3(0.0f));
 		/*Debug::now("MakeRoot");
 		Debug::now("# " + std::to_string(_objectCount));
@@ -213,27 +232,85 @@ void Space::update(float pElapsedTime)
 
 std::string Space::pickObject(glm::mat4* pModel, glm::mat4* pProjection, int pMouseX, int pMouseY, GLuint pFrameBufferId)
 {
+	if (_selectedObject != NULL) {
+		_selectedObject = NULL;
+	}
+	_selectionMarker.clear();
+	std::string objectTypeIDVersion = "NULL";
+	int sizeX = selectionMaterial->sizeX();
+	int sizeY = selectionMaterial->sizeY();
+	// ---- 
+	if (sizeX != 1 || sizeY != 1) {
+		objectTypeIDVersion = "";
+		int startX = selectionMaterial->startX();
+		int startY = selectionMaterial->startY();
+		
+		glm::mat4 vp = *pProjection * glm::inverse(*pModel);
+		glm::vec4 world;
+		glm::vec3 ndc;
+		int sx;
+		int sy;
+
+		for (auto& type : _objects) {
+			for (auto& id : type.second) {
+				for (auto& version : id.second) {
+					if (version.second->render) {
+						world = vp * glm::vec4(version.second->getTransform()->getPosition(), 1.0f);
+						ndc = glm::vec3(world) / world.w;
+						sx = ((ndc.x * _width) + _width) / 2;
+						sy = ((ndc.y * -_height) + _height) / 2;
+						//if selection contains object centre
+						if (startX <= sx && sx < startX + sizeX &&
+							startY <= sy && sy < startY + sizeY &&
+							ndc.z < world.w) {
+							if (_selectedObject == NULL) {
+								_selectedObject = version.second;
+							}
+							// create marker for this object
+							Object* marker = new Object(
+								Config::f["selection_marker_scale"],
+								Config::s["marker_model"],
+								new TextureMaterial(
+									Texture::load("marker_texture.png"),
+									-1.0f,
+									Texture::load("marker_specular.png"),
+									_currentSkyboxTexture));
+							// set marker position
+							marker->getTransform()->setPosition(version.second->getTransform()->getPosition());
+							// add to list of markers
+							_selectionMarker.push_back(marker);
+							objectTypeIDVersion += version.second->objVer.toString() + "%";
+							
+						}
+					}
+				}
+			}
+		}
+		if (objectTypeIDVersion == "") return "NULL";
+		else return objectTypeIDVersion.substr(0, objectTypeIDVersion.size() - 1);
+	}
+
+	// ---- 
 	float count = 256.0f;
 	glBindFramebuffer(GL_FRAMEBUFFER, pFrameBufferId); // Object picking
 	glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	MObject* object = NULL; 
+	MObject* object = NULL;
 	for (auto& type : _objects) {
 		for (auto& id : type.second) {
 			for (auto& version : id.second) {
-				object = version.second;
-				object->getMaterial()->renderPickIdentifier(object->getMesh(), object->getTransform()->getTransform(), pModel, pProjection);
+				if (version.second->render) {
+					object = version.second;
+					object->getMaterial()->renderPickIdentifier(object->getMesh(), object->getTransform()->getTransform(), pModel, pProjection);
+				}
 			}
 		}
 	}
 	glFinish();
+	// ---- 
 	glm::vec3 pixel;
 	glReadPixels(pMouseX, pMouseY, 1, 1, GL_RGB, GL_FLOAT, &pixel);
 	pixel = glm::vec3(std::roundf(pixel.r * count) / count);
-	std::string objectTypeIDVersion = "NULL";
-	if (_selectedObject != NULL) {
-		_selectedObject = NULL;
-	}
 	bool foundObject = false; 
 	for (auto& type : _objects) {
 		for (auto& id : type.second) {
@@ -242,7 +319,19 @@ std::string Space::pickObject(glm::mat4* pModel, glm::mat4* pProjection, int pMo
 				if (pixel == glm::vec3((std::roundf(object->getPickIdentifier() * count) / count))) {
 					_selectedObject = object;
 					Config::rotationPoint = _selectedObject->getTransform()->getPosition();
-					_selectionMarker->getTransform()->setPosition(_selectedObject->getTransform()->getPosition());
+					// create selection marker
+					Object* marker = new Object(
+						Config::f["selection_marker_scale"],
+						Config::s["marker_model"],
+						new TextureMaterial(
+							Texture::load("marker_texture.png"),
+							-1.0f,
+							Texture::load("marker_specular.png"),
+							_currentSkyboxTexture));
+					// set marker position
+					marker->getTransform()->setPosition(version.second->getTransform()->getPosition());
+					// add to list of markers
+					_selectionMarker.push_back(marker); 
 					objectTypeIDVersion = _selectedObject->objVer.toString();
 					foundObject = true;
 					break;
@@ -287,11 +376,13 @@ void Space::render(Camera* pCamera)
 	}
 	// Render selection marker
 	if (_selectedObject != NULL) {
-		_selectionMarker->getMaterial()->render(
-			_selectionMarker->getMesh(), 
-			_selectionMarker->getTransform()->getTransform(), 
-			pCamera->getTransform()->getTransform(), 
-			pCamera->getProjection());
+		for (auto& marker : _selectionMarker) {
+			marker->getMaterial()->render(
+				marker->getMesh(),
+				marker->getTransform()->getTransform(),
+				pCamera->getTransform()->getTransform(),
+				pCamera->getProjection());
+		}
 	}
 	// Render root marker
 	_rootMarker->getMaterial()->render(
@@ -314,6 +405,8 @@ void Space::render(Camera* pCamera)
 			}
 		}
 	}
+	// Render Selection
+	selectionMaterial->render(pCamera);
 	glFinish();
 }
 
@@ -378,6 +471,14 @@ void Space::cycleSkybox()
 	}
 }
 
+void Space::onResize(int pWidth, int pHeight)
+{
+	selectionMaterial->onResize(pWidth, pHeight);
+	_width = pWidth;
+	_height = pHeight; 
+
+}
+
 void Space::_loadSkyboxTextures()
 {
 	std::string directory = Config::applicationPath + Config::s["cubemap_path"];
@@ -387,7 +488,6 @@ void Space::_loadSkyboxTextures()
 		path = entry.path().string();
 		cmd = path.substr(directory.size(), path.size());
 		cmd += "/";
-		std::cout << cmd << std::endl;
 		_skyboxTextures.push_back(Texture::loadCubemap(cmd, ".png"));
 	}
 	_currentSkyboxTexture = _skyboxTextures.at(0);

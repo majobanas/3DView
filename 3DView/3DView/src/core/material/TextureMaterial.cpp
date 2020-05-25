@@ -22,8 +22,8 @@ TextureMaterial::~TextureMaterial()
 
 void TextureMaterial::Test()
 {
-	Debug::now("Color " + glm::to_string(_color));
-	Debug::now("PickIdentifierColor " + glm::to_string(_pickIdentifierColor));
+	Debug::log("Color " + glm::to_string(_color));
+	Debug::log("PickIdentifierColor " + glm::to_string(_pickIdentifierColor));
 }
 
 void TextureMaterial::renderPickIdentifier(Mesh* pMesh, glm::mat4* pTransform, glm::mat4* pModel, glm::mat4* pProjection)

@@ -14,13 +14,13 @@ LineMaterial::LineMaterial(float pPositiveNegativeLength) {
 
 	_addedRemovedFrom = false;
 	_from = std::map<std::string, Line>();
-	_fromColor = glm::vec3(0.0f, 1.0f, 0.0f);
+	_fromColor = Config::getColor(Config::s["from_color"]);
 	_fromVertices = std::vector<glm::vec3>();
 	_fromIndices = std::vector<unsigned>();
 
 	_addedRemovedTo = false;
 	_to = std::map<std::string, Line>();
-	_toColor = glm::vec3(1.0f, 0.5f, 0.0f);
+	_toColor = Config::getColor(Config::s["to_color"]);
 	_toVertices = std::vector<glm::vec3>();
 	_toIndices = std::vector<unsigned>();
 
@@ -279,7 +279,7 @@ void LineMaterial::_buffer(GLuint& pVertexBufferID, GLuint& pIndexBufferID, std:
 	if (pVertexBufferID == -1)
 		glGenBuffers(1, &pVertexBufferID);
 	glBindBuffer(GL_ARRAY_BUFFER, pVertexBufferID);
-	glBufferData(GL_ARRAY_BUFFER, pVertices.size() * sizeof(glm::vec3), &pVertices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, pVertices.size() * sizeof(glm::vec3), &pVertices[0], pGL_DRAW_TYPE);
 
 	pIndices.clear();
 	for (int i = 0; i < pVertices.size(); i++)
@@ -288,7 +288,7 @@ void LineMaterial::_buffer(GLuint& pVertexBufferID, GLuint& pIndexBufferID, std:
 	if (pIndexBufferID == -1)
 		glGenBuffers(1, &pIndexBufferID);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pIndexBufferID);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, pIndices.size() * sizeof(unsigned int), &pIndices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, pIndices.size() * sizeof(unsigned int), &pIndices[0], pGL_DRAW_TYPE);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

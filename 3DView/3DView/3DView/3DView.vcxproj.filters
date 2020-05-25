@@ -102,6 +102,9 @@
     <ClCompile Include="..\src\core\Object.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\core\material\SelectionMaterial.cpp">
+      <Filter>Source Files\core\material</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\core\View.h">
@@ -164,6 +167,9 @@
     <ClInclude Include="..\src\core\Object.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\core\material\SelectionMaterial.h">
+      <Filter>Header Files\core\material</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -204,6 +210,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\..\3DViewCS\bin\assets\shaders\skybox.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\3DViewCS\bin\assets\shaders\selection.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\3DViewCS\bin\assets\shaders\selection.vs">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

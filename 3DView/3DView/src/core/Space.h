@@ -12,6 +12,7 @@
 #include "core/Texture.h"
 #include "core/material/LineMaterial.h"
 #include "core/material/SkyboxMaterial.h"
+#include "core/material/SelectionMaterial.h"
 
 class Space {
 public:
@@ -35,6 +36,7 @@ public:
 	void update(float pElapsedTime);
 
 	std::string pickObject(glm::mat4* pModel, glm::mat4* pProjection, int pMouseX, int pMouseY, GLuint pFrameBufferId);
+	std::string selectObjects(glm::mat4* pModel, glm::mat4* pProjection);
 	// Render everything
 	void render(Camera* pCamera);
 
@@ -44,10 +46,17 @@ public:
 	static glm::vec3 freePosition(glm::vec3 pPosition);
 
 	void cycleSkybox();
+	SelectionMaterial* selectionMaterial = NULL;
+
+	void onResize(int pWidth, int pHeight);
 
 private:
+
+	int _width;
+	int _height;
+
 	Object* _rootMarker = NULL;
-	Object* _selectionMarker = NULL;
+	std::vector<Object*> _selectionMarker;
 
 
 	void _loadSkyboxTextures();

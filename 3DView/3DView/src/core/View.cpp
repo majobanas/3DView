@@ -74,8 +74,8 @@ bool View::timeToSecond()
 	_timeSinceLastSecond += _secondClock.restart().asSeconds();
 	if (_timeSinceLastSecond >= 1.0) {
 		_timeSinceLastSecond = glm::mod(_timeSinceLastSecond, 1.0);
-		Debug::now("C++ I: " + std::to_string(_inputsPerSecond) + " U: " + std::to_string(_updatesPerSecond) + " R: " + std::to_string(_rendersPerSecond));
-		Debug::now("C++ AvgTime R: " + std::to_string(_renderTime / _rendersPerSecond));
+		Debug::log("C++ I: " + std::to_string(_inputsPerSecond) + " U: " + std::to_string(_updatesPerSecond) + " R: " + std::to_string(_rendersPerSecond));
+		Debug::log("C++ AvgTime R: " + std::to_string(_renderTime / _rendersPerSecond));
 		return true;
 	}
 	return false;
@@ -130,7 +130,7 @@ void View::_initializeGLEW()
 
 void View::_initializeCamera(float pFov)
 {
-	_camera = new Camera(_renderWindow, glm::vec3(0, 0, 10), pFov, 0.001f, 1000.0f);
+	_camera = new Camera(_renderWindow, glm::vec3(3 * Config::f["spacing_z"], Config::f["spacing_y"], 0), pFov, 0.001f, 1000.0f);
 }
 
 void View::_initializeSpace()
@@ -165,6 +165,16 @@ void View::_initializeFrameBuffer()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
+void View::alignCameraWithRoot()
+{
+	_camera->alignCameraWithRoot = true;
+}
+
+void View::setDefaultView()
+{
+	_camera->setDefaultView();
+}
+
 void View::processInput()
 {
 	_camera->setShiftPressed(Input::getKeyPressed(Input::Key::LShift));
@@ -179,6 +189,7 @@ void View::processInput()
 			// Mouse Move
 		case sf::Event::MouseMoved:
 			_camera->setMousePosition(_windowEvent.mouseMove.x, _windowEvent.mouseMove.y);
+			space->selectionMaterial->onMouseMove(Input::getMousePosition(_renderWindow));
 			break;
 			// MouseButton Press
 		case sf::Event::MouseButtonPressed:
@@ -186,11 +197,17 @@ void View::processInput()
 				_camera->setMiddlePressed(true);
 				_renderWindow->setMouseCursorVisible(false);
 			}
+			if (_windowEvent.mouseButton.button == sf::Mouse::Button::Left) {
+				space->selectionMaterial->onMouseDown(Input::getMousePosition(_renderWindow));
+			}
 			break;
 		case sf::Event::MouseButtonReleased:
 			if (_windowEvent.mouseButton.button == sf::Mouse::Button::Middle) {
 				_camera->setMiddlePressed(false);
 				_renderWindow->setMouseCursorVisible(false);
+			}
+			if (_windowEvent.mouseButton.button == sf::Mouse::Button::Left) {
+				space->selectionMaterial->onMouseRelease();
 			}
 			break;
 			// Window Closed
@@ -203,6 +220,7 @@ void View::processInput()
 			glBindFramebuffer(GL_FRAMEBUFFER, _frameBufferId);
 			glViewport(0, 0, _renderWindow->getSize().x, _renderWindow->getSize().y);
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			space->onResize(_renderWindow->getSize().x, _renderWindow->getSize().y);
 			break;
 			/*// Window Lost Focus
 		case sf::Event::LostFocus:
@@ -248,13 +266,3 @@ std::string View::getObjectTypeIDVersion()
 
 	return space->pickObject(_camera->getTransform()->getTransform(), _camera->getProjection(), position.x, _camera->getHeight() - position.y, _frameBufferId);
 }
-
-/*int View::getQuickAction(int pMouseX, int pMouseY)
-{
-	return space->getQuickAction(pMouseX, pMouseY);
-}
-
-void View::toggleQuickAction(bool pBool)
-{
-	space->toggleQuickAction(pBool, _renderWindow);
-}*/

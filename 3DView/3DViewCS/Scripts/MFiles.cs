@@ -154,10 +154,11 @@ namespace ThreeDViewCS {
             return client.Get<PrimitiveType<MFCheckOutStatus>>(MFRequest.CheckOutStatus(pMFilesObject.Type, pMFilesObject.ID, pMFilesObject.Version)).Value;
         }
 
-        public static void SetCheckOutStatus(MFilesObject pMFilesObject, MFCheckOutStatus pStatus) {
+        public static MFilesObject SetCheckOutStatus(MFilesObject pMFilesObject, MFCheckOutStatus pStatus) {
             ObjectVersion objectVersion = client.Put<ObjectVersion>(
                 MFRequest.CheckOutStatus(pMFilesObject.Type, pMFilesObject.ID, pMFilesObject.Version),
                 new PrimitiveType<MFCheckOutStatus>() { Value = pStatus });
+            return new MFilesObject(objectVersion.ObjVer.Type, objectVersion.ObjVer.ID, objectVersion.ObjVer.Version, pMFilesObject.Title);
             //Console.WriteLine("CHoT: " + objectVersion.CheckedOutTo.ToString());
         }
 
@@ -165,10 +166,18 @@ namespace ThreeDViewCS {
             return client.Get<ObjectVersion>(MFRequest.ObjectVersion(pMFilesObject.Type, pMFilesObject.ID, pMFilesObject.Version));
         }
 
+        public static PropertyValue GetProperty(MFilesObject pMFilesObject, int pPropertyID) {
+            return client.Get<PropertyValue>(MFRequest.SingleObjectProperty(pMFilesObject.Type, pMFilesObject.ID, pMFilesObject.Version, pPropertyID));
+        }
+
+        public static ExtendedObjectVersion SetProperty(MFilesObject pMFilesObject, int pPropertyID, PropertyValue pProperty) {
+            return client.Put<ExtendedObjectVersion>(MFRequest.SingleObjectProperty(pMFilesObject.Type, pMFilesObject.ID, pMFilesObject.Version, pPropertyID),
+                pProperty);
+        }
+
         public static PropertyValue[] GetProperties(MFilesObject pMFilesObject) {
             return client.Get<PropertyValue[]>(
-                MFRequest.ObjectProperties(pMFilesObject.Type, pMFilesObject.ID, pMFilesObject.Version));//,
-                //new ObjVer[] { new ObjVer { Type = pMFilesObject.Type, ID = pMFilesObject.ID, Version = pMFilesObject.Version } }) ;
+                MFRequest.ObjectProperties(pMFilesObject.Type, pMFilesObject.ID, pMFilesObject.Version));
         }
 
         public static PropertyDef GetPropertyDef(int pPropertyID) {

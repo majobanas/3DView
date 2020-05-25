@@ -6,7 +6,7 @@ class Config;
 ThreeDView::ThreeDView(std::string pApplicationPath)
 {
 	Config::applicationPath = pApplicationPath;
-	Debug::now("Application path: " + Config::applicationPath);
+	Debug::log("Application path: " + Config::applicationPath);
 	Config::readConfig("assets/config.txt");
 }
 
@@ -33,6 +33,7 @@ void ThreeDView::addRoot(int pType, int pID, int pVersion, std::string pTitle, s
 void ThreeDView::makeRoot()
 {
 	_view->space->makeRoot();
+	_view->alignCameraWithRoot();
 }
 
 void ThreeDView::addFrom(int pFromType, int pFromID, int pFromVersion, std::string pTitle, std::string pFromModel)
@@ -153,4 +154,9 @@ void ThreeDView::addTypeToLineStatus(int pType)
 void ThreeDView::cycleSkybox()
 {
 	_view->space->cycleSkybox();
+}
+
+void ThreeDView::setDefaultView()
+{
+	_view->setDefaultView();
 }

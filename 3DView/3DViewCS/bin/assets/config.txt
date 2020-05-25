@@ -1,10 +1,24 @@
-//Types:
-//f (float)
-//i (int)
+//****************** READ ME **************************
+//Do not modify text written before the = (equals) sign
+//<types>:
+//f (float) - expecting a decimal number
+//i (int) - expecting a whole number
 //s (string)
-
-//Follow the following format: 
+//
+//Preserve the following format:
 //<type> <key>=<value>
+//*****************************************************
+
+//Necessary values to modify per document vault
+
+//Replace 0 with object type ID of your choice
+i default_entry_object_type=0
+//Replace 0 with 0 or 1
+i load_models=0
+//Leave at least one value on after the = sign (always end this line with a number)
+i models=0,104,103,102,105,10,108,9,101
+
+//Optional settings
 
 i resolution_x=640
 i resolution_y=480
@@ -27,14 +41,15 @@ s skybox_extension=.png
 
 i font_size=50;
 f font_scale=0.02;
-s text_color=ffffff;
 
-s config_path=assets/
-s model_path=assets/models/
-s shader_path=assets/shaders/
-s font_path=assets/fonts/
-s texture_path=assets/textures/
-s cubemap_path=assets/textures/cubemaps/
+//Use hexadecimal values for adjusting the color values
+
+s text_color=ffffff;
+s selection_color=fc03d3
+s from_color=adff2f
+s to_color=ffa500
+
+//Do not change the values of the items listed below or the program may not function properly anymore!
 
 s marker_model=marker.obj
 s root_model=root.obj
@@ -42,9 +57,12 @@ s from_model=cube_flat.obj
 s project_model=cube_flat.obj
 s to_model=cube_flat.obj
 
-i default_entry_object_type=102
-i load_models=1
-i models=0,104,103,102,105,10,108,9,101
+s config_path=assets/
+s model_path=assets/models/
+s shader_path=assets/shaders/
+s font_path=assets/fonts/
+s texture_path=assets/textures/
+s cubemap_path=assets/textures/cubemaps/
 
 s text_shader_vertex=text.vs
 s text_shader_fragment=text.fs
@@ -58,3 +76,5 @@ s sprite_shader_vertex=sprite.vs
 s sprite_shader_fragment=sprite.fs
 s skybox_shader_vertex=skybox.vs
 s skybox_shader_fragment=skybox.fs
+s selection_shader_vertex=selection.vs
+s selection_shader_fragment=selection.fs
